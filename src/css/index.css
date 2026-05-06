@@ -162,6 +162,7 @@
             position: relative;
             overflow: hidden;
             background: var(--bg);
+            padding-top: 90px;
         }
 
         .hero-bg {
@@ -674,10 +675,37 @@
             align-items: start;
         }
 
+        .plan-label {
+            font-size: .78rem;
+            color: var(--muted);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
         .planes {
             display: flex;
             flex-direction: column;
             gap: 16px;
+        }
+
+        .btn-historial {
+            background: transparent;
+            border: 1px solid var(--border2);
+            color: var(--muted);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: .82rem;
+            width: 100%;
+            transition: all .2s;
+        }
+
+        .btn-historial:hover {
+            border-color: rgba(255, 255, 255, .25);
+            color: var(--text);
         }
 
         .plan {
@@ -949,6 +977,13 @@
             font-weight: 800;
         }
 
+        .no-pagos {
+            color: var(--muted);
+            text-align: center;
+            padding: 20px 0;
+            font-size: .9rem;
+        }
+
         .modal-close {
             background: var(--card);
             border: 1px solid var(--border);
@@ -1084,6 +1119,10 @@
             color: var(--muted);
             margin-bottom: 2rem;
             line-height: 1.7;
+        }
+
+        .cta-btns {
+            justify-content: center;
         }
 
         /* ─── FOOTER ─── */

@@ -31,8 +31,7 @@
                 <button class="modal-close" onclick="cerrarHistorial()">✕</button>
             </div>
             <div id="historial-lista">
-                <p style="color:var(--muted);text-align:center;padding:20px 0;font-size:.9rem;">No hay pagos registrados
-                    aún.</p>
+                <p class="no-pagos">No hay pagos registrados aún.</p>
             </div>
         </div>
     </div>
@@ -61,7 +60,7 @@
     </nav>
 
     <!-- HERO -->
-    <section class="hero" id="inicio" style="padding-top:90px">
+    <section class="hero" id="inicio">
         <div class="hero-bg"></div>
         <div class="hero-grid"></div>
         <div class="hero-accent"></div>
@@ -239,8 +238,7 @@
             <div class="cuotas-grid">
                 <!-- PLANES -->
                 <div>
-                    <p
-                        style="font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:16px;">
+                    <p class="plan-label">
                         Seleccioná tu plan</p>
                     <div class="planes">
 
@@ -298,10 +296,7 @@
 
                     </div>
                     <br>
-                    <button onclick="abrirHistorial()"
-                        style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:10px 20px;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:.82rem;width:100%;transition:all .2s;"
-                        onmouseover="this.style.borderColor='rgba(255,255,255,.25)';this.style.color='var(--text)'"
-                        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)'">
+                    <button class="btn-historial" onclick="abrirHistorial()">
                         Ver historial de pagos →
                     </button>
                 </div>
@@ -323,7 +318,7 @@
 
                     <div class="form-row">
                         <label>Categoría</label>
-                        <select id="f-categoria">
+                        <select id="f-categoria" aria-label="Categoría">
                             <option value="">Seleccioná una categoría</option>
                             <option>Sub-10</option>
                             <option>Sub-12</option>
@@ -337,7 +332,7 @@
 
                     <div class="form-row">
                         <label>Mes a abonar</label>
-                        <select id="f-mes">
+                        <select id="f-mes" aria-label="Mes a abonar">
                             <option value="">Seleccioná el mes</option>
                             <option>Enero 2026</option>
                             <option>Febrero 2026</option>
@@ -356,7 +351,7 @@
 
                     <div class="form-row">
                         <label>Método de pago</label>
-                        <select id="f-metodo">
+                        <select id="f-metodo" aria-label="Método de pago">
                             <option>Transferencia bancaria</option>
                             <option>Efectivo en sede</option>
                             <option>Mercado Pago</option>
@@ -398,7 +393,7 @@
             <h2>SUMATE A REGATAS</h2>
             <p>Entrená, competí y viví el futsal al máximo nivel en Mendoza. El club te espera con las puertas abiertas.
             </p>
-            <div class="hero-btns" style="justify-content:center;">
+            <div class="hero-btns cta-btns">
                 <a href="./src/contacto.html" class="btn-primary">Contactanos</a>
                 <a href="#cuotas" class="btn-secondary">Ver planes</a>
             </div>
@@ -410,173 +405,9 @@
         <strong>REGATAS FUTSAL MENDOZA</strong> · © 2026 · Todos los derechos reservados
     </footer>
 
-    <script src="./src/js/cart.js" onerror="console.log('cart.js no encontrado')"></script>
-    <script type="module">
-        // Firebase imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <!-- SOLO TE CAMBIO EL SCRIPT, TODO LO DEMÁS DE TU HTML QUEDA IGUAL -->
 
-        // Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyBoGkV8H7wQbmCODjE-FjooFyHSd5DF2Xw",
-            authDomain: "voz-arg-2c418.firebaseapp.com",
-            projectId: "voz-arg-2c418",
-            storageBucket: "voz-arg-2c418.firebasestorage.app",
-            messagingSenderId: "183648059891",
-            appId: "1:183648059891:web:09bf47bab7a58896ba1286",
-            measurementId: "G-9DMPEHV3TC"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        // --- SCROLL ---
-        const nav = document.getElementById('main-nav');
-        const scrollLine = document.getElementById('scrollLine');
-
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.body.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            scrollLine.style.width = pct + '%';
-            nav.classList.toggle('scrolled', scrollTop > 80);
-        });
-
-        // --- PLAN SELECTOR ---
-        let planActual = { nombre: '', precio: '' };
-
-        function seleccionarPlan(el, nombre, precio) {
-            document.querySelectorAll('.plan').forEach(p => p.classList.remove('selected'));
-            el.classList.add('selected');
-            planActual = { nombre, precio };
-            document.getElementById('res-plan').textContent = nombre;
-            document.getElementById('res-total').textContent = precio;
-            actualizarMes();
-        }
-
-        function actualizarMes() {
-            const mes = document.getElementById('f-mes').value;
-            document.getElementById('res-mes').textContent = mes || '—';
-        }
-
-        document.getElementById('f-mes').addEventListener('change', actualizarMes);
-
-        // --- REGISTRO PAGO ---
-        async function registrarPago() {
-    const nombre = document.getElementById('f-nombre').value.trim();
-    const dni = document.getElementById('f-dni').value.trim();
-    const categoria = document.getElementById('f-categoria').value;
-    const mes = document.getElementById('f-mes').value;
-    const metodo = document.getElementById('f-metodo').value;
-
-    if (!nombre || !dni || !categoria || !mes || !planActual.nombre) {
-        mostrarToast('Completá todos los campos', true);
-        return;
-    }
-
-    try {
-        // 🔒 VERIFICAR SI YA PAGÓ
-        const q = query(collection(db, "pagos"));
-        const snap = await getDocs(q);
-
-        const yaExiste = snap.docs.some(doc => {
-            const p = doc.data();
-            return p.dni === dni && p.mes === mes;
-        });
-
-        if (yaExiste) {
-            mostrarToast("Este jugador ya pagó ese mes", true);
-            return;
-        }
-
-        // 💾 GUARDAR PAGO
-        const pago = {
-            nombre,
-            dni,
-            categoria,
-            plan: planActual.nombre,
-            monto: planActual.precio,
-            mes,
-            metodo,
-            fecha: new Date(),
-            estado: "pagado"
-        };
-
-        await addDoc(collection(db, "pagos"), pago);
-
-        mostrarToast("Pago registrado correctamente ✓");
-
-    } catch (error) {
-        console.error(error);
-        mostrarToast("Error al guardar el pago", true);
-    }
-}
-        // --- TOAST ---
-        function mostrarToast(msg, error = false) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').textContent = msg;
-            toast.style.borderColor = error ? 'rgba(239,68,68,.4)' : 'rgba(74,222,128,.3)';
-            toast.querySelector('.toast-icon').textContent = error ? '!' : '✓';
-            toast.querySelector('.toast-icon').style.color = error ? '#ef4444' : '#4ade80';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-
-        // --- HISTORIAL ---
-        async function abrirHistorial() {
-            const lista = document.getElementById('historial-lista');
-
-            try {
-                const q = query(collection(db, "pagos"), orderBy("fecha", "desc"));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    lista.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px 0;">No hay pagos aún.</p>`;
-                } else {
-                    lista.innerHTML = "";
-
-                    querySnapshot.forEach(doc => {
-                        const p = doc.data();
-
-                        lista.innerHTML += `
-          <div class="historial-item">
-            <div class="hist-left">
-              <div class="hist-nombre">${p.nombre} · DNI ${p.dni}</div>
-              <div class="hist-detalle">${p.plan} — ${p.categoria} · ${p.mes} · ${p.metodo}</div>
-            </div>
-            <div class="hist-right">
-              <div class="hist-monto">${p.monto}</div>
-              <span class="hist-estado ${p.estado}">${p.estado}</span>
-            </div>
-          </div>
-        `;
-                    });
-                }
-
-                document.getElementById('modal-historial').classList.add('open');
-
-            } catch (error) {
-                console.error(error);
-                mostrarToast("Error al cargar historial", true);
-            }
-        }
-
-        function cerrarHistorial() {
-            document.getElementById('modal-historial').classList.remove('open');
-        }
-
-        document.getElementById('modal-historial').addEventListener('click', function (e) {
-            if (e.target === this) cerrarHistorial();
-        });
-
-        // Cart count
-        try { if (typeof updateCartCount === 'function') updateCartCount(); } catch (e) { }
-        window.registrarPago = registrarPago;
-        window.abrirHistorial = abrirHistorial;
-        window.cerrarHistorial = cerrarHistorial;
-        window.seleccionarPlan = seleccionarPlan;
-    </script>
-
+<script type="module" src="./src/js/main.js"></script>
 </body>
 
 </html>
