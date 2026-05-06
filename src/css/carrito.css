@@ -1,0 +1,388 @@
+:root{
+    --bg:#070f1f;
+    --surface:#0f1a33;
+    --card:#111c38;
+    --border:rgba(255,255,255,.08);
+
+    --blue:#3b82f6;
+    --red:#ef4444;
+
+    --text:#e8eefc;
+    --muted:#7c8bb0;
+
+    --gradient:linear-gradient(135deg,var(--blue),var(--red));
+}
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* TOP BAR */
+.announce{
+    text-align:center;
+    font-size:.7rem;
+    padding:8px;
+    background:var(--gradient);
+    letter-spacing:.2em;
+}
+
+/* NAV */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 2rem;
+
+    border-bottom:1px solid var(--border);
+    background:rgba(15,26,51,0.85);
+    backdrop-filter:blur(10px);
+}
+
+nav.scrolled{
+    background:rgba(15,26,51,0.98);
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:white;
+}
+
+.logo-img{
+    width:42px;
+    border-radius:50%;
+}
+
+.brand{
+    font-weight:600;
+    letter-spacing:.08em;
+}
+
+.sub{
+    font-size:.65rem;
+    color:var(--muted);
+}
+
+/* LINKS */
+.nav-links{
+    display:flex;
+    gap:1.5rem;
+    list-style:none;
+}
+
+.nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.85rem;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.btn-nav{
+    background:var(--gradient);
+    padding:8px 14px;
+    border-radius:6px;
+    color:white !important;
+}
+
+/* HAMBURGUESA */
+.menu-toggle{
+    display:none;
+    font-size:26px;
+    cursor:pointer;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width:768px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:70px;
+        right:0;
+        width:100%;
+        background:#0f1a33;
+
+        flex-direction:column;
+        align-items:center;
+        gap:20px;
+
+        padding:30px 0;
+
+        transform:translateY(-120%);
+        opacity:0;
+        transition:.3s;
+    }
+
+    .nav-links.active{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+/* PAGE */
+.page-wrap{
+    margin-top:90px;
+    padding:2rem;
+}
+
+.page-title{
+    font-family:'Bebas Neue';
+    font-size:3rem;
+}
+
+.page-title em{
+    color:var(--red);
+}
+
+/* LAYOUT */
+.cart-layout{
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:2rem;
+    margin-top:2rem;
+}
+
+/* ITEMS */
+.cart-items{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--card);
+    padding:1rem;
+    border-radius:10px;
+    border:1px solid var(--border);
+    transition:.3s;
+}
+
+.cart-item:hover{
+    transform:translateY(-4px);
+    border-color:var(--blue);
+}
+
+/* INFO */
+.item-info{
+    flex:1;
+}
+
+.item-name{
+    font-weight:600;
+    font-size:1.1rem;
+}
+
+.item-talle{
+    font-size:.8rem;
+    color:var(--muted);
+}
+
+/* CANTIDAD */
+.cart-item button{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:5px 10px;
+    cursor:pointer;
+    border-radius:6px;
+    transition:.2s;
+}
+
+.cart-item button:hover{
+    border-color:var(--blue);
+}
+
+/* PRECIO */
+.cart-item div:last-child{
+    font-weight:600;
+    color:var(--blue);
+}
+
+/* PANEL */
+.payment-panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.2rem;
+    height:fit-content;
+    position:sticky;
+    top:80px;
+}
+
+/* SECTIONS */
+.panel-section{
+    margin-bottom:1.5rem;
+}
+
+.panel-title{
+    font-size:.8rem;
+    letter-spacing:.15em;
+    color:var(--muted);
+    margin-bottom:10px;
+}
+
+/* RESUMEN */
+.summary-total{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-weight:600;
+}
+
+/* PAGO OPCIONES */
+.pago-opt{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:.8rem;
+    border:1px solid var(--border);
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:.5rem;
+    transition:.2s;
+}
+
+.pago-opt:hover{
+    border-color:var(--blue);
+}
+
+.pago-opt.selected{
+    border-color:var(--blue);
+    background:rgba(59,130,246,.1);
+}
+
+/* INPUTS */
+input,select{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:var(--text);
+}
+
+/* BOTON */
+.btn-mp{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:var(--gradient);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-mp:hover{
+    transform:translateY(-2px);
+}
+
+/* MONTO */
+.monto-pagar-box{
+    display:flex;
+    justify-content:space-between;
+    padding:.7rem;
+    background:rgba(59,130,246,.1);
+    border-radius:6px;
+    margin-top:10px;
+}
+
+/* FOOTER */
+footer{
+    margin-top:3rem;
+    padding:2rem;
+    border-top:1px solid var(--border);
+    text-align:center;
+    color:var(--muted);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .cart-layout{
+        grid-template-columns:1fr;
+    }
+}
+.empty-box{
+    text-align:center;
+    padding:40px;
+    color:#7c8bb0;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:#0f1a33;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    transition:.3s;
+}
+
+.item-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.item-info{
+    flex:1;
+}
+
+.item-qty{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.item-qty button{
+    background:#1e2a4a;
+    border:none;
+    color:white;
+    width:30px;
+    height:30px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.btn-delete{
+    background:none;
+    border:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.btn-delete:hover{
+    color:#ef4444;
+    transform:scale(1.2);
+}

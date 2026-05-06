@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Catálogo — Regatas Futsal</title>
+
+<link rel="stylesheet" href="./css/catalogo.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">
+        <img src="./public/regataslogo.jpg" class="logo-img">
+        <div>
+            <div class="brand">REGATAS</div>
+            <div class="sub">FUTSAL · MENDOZA</div>
+        </div>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="./categorias.html">Categorias</a></li>
+        <li><a href="./fixture.html">Fixture</a></li>
+        <li><a href="./catalogo.html">Indumentaria</a></li>
+        <li><a href="./contacto.html">Contacto</a></li>
+        <li>
+            <a href="./carrito.html" class="btn-nav">
+                🛒 <span id="cart-count">0</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div class="page-title">
+    <h1>Catálogo Oficial</h1>
+</div>
+
+<!-- FILTROS -->
+<div class="filters">
+    <button class="filter-btn active" onclick="setCategoria('all', this)">Todo</button>
+    <button class="filter-btn" onclick="setCategoria('remera', this)">Remeras</button>
+    <button class="filter-btn" onclick="setCategoria('short', this)">Shorts</button>
+    <button class="filter-btn" onclick="setCategoria('buzo', this)">Buzos</button>
+
+    <label>
+        <input type="checkbox" id="stockCheck" onchange="toggleStock()"> Solo con stock
+    </label>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="grid" id="grid"></div>
+
+<footer>
+    © 2026 Regatas Futsal
+</footer>
+
+<script type="module">
+import { db } from "./js/firebase.js";
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ===== STORAGE =====
+const STORAGE_KEY = "atsc_carrito";
+
+function getCarrito() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+}
+
+function saveCarrito(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    updateCartCount();
+}
+
+// ===== CONTADOR =====
+function updateCartCount() {
+    const c = getCarrito();
+    const total = c.reduce((acc, p) => acc + (p.cantidad || 1), 0);
+
+    const el = document.getElementById("cart-count");
+    if (el) el.textContent = total;
+}
+
+// ===== DATA =====
+let productos = [];
+let categoriaActiva = "all";
+let soloStock = false;
+
+// ===== FIREBASE =====
+async function loadProductos() {
+    const snap = await getDocs(collection(db, "regatas"));
+
+    productos = snap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    render();
+}
+
+// ===== FILTRO =====
+function getFiltrados() {
+    return productos.filter(p => {
+        if (categoriaActiva !== "all" && p.categoria !== categoriaActiva) return false;
+        if (soloStock && (!p.stock || p.stock <= 0)) return false;
+        return true;
+    });
+}
+
+// ===== RENDER =====
+function render() {
+    const grid = document.getElementById("grid");
+    const filtrados = getFiltrados();
+
+    grid.innerHTML = filtrados.map(p => `
+        <div class="card">
+
+            <img 
+                src="./public/${p.img}" 
+                onerror="this.src='./public/no-image.png'"
+            >
+
+            <h3>${p.nombre}</h3>
+            <div>$${p.precio}</div>
+
+            <!-- TALLES -->
+            <div class="talles" id="t-${p.id}">
+                <button class="active" onclick="selectTalle('${p.id}', this)">M</button>
+                <button onclick="selectTalle('${p.id}', this)">L</button>
+            </div>
+
+            <button onclick="addToCart('${p.id}')"
+                ${p.stock === 0 ? "disabled" : ""}
+            >
+                ${p.stock === 0 ? "Sin stock" : "Agregar"}
+            </button>
+
+        </div>
+    `).join("");
+}
+
+// ===== TALLE =====
+window.selectTalle = (id, btn) => {
+    const cont = document.getElementById("t-" + id);
+    cont.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+};
+
+function getTalle(id) {
+    const el = document.querySelector(`#t-${id} .active`);
+    return el ? el.textContent : "Único";
+}
+
+// ===== ADD CARRITO =====
+window.addToCart = (id) => {
+    const prod = productos.find(p => p.id === id);
+    const talle = getTalle(id);
+
+    let carrito = getCarrito();
+
+    const existe = carrito.find(p => p.producto_id === id && p.talle === talle);
+
+    if (existe) {
+        existe.cantidad++;
+    } else {
+        carrito.push({
+            producto_id: id,
+            producto_nombre: prod.nombre,
+            precio: prod.precio,
+            imagen_url: prod.img,
+            talle,
+            cantidad: 1
+        });
+    }
+
+    saveCarrito(carrito);
+
+    Swal.fire({
+        icon: "success",
+        title: "Agregado al carrito",
+        text: `${prod.nombre} (${talle})`,
+        showConfirmButton: false,
+        timer: 1200
+    });
+};
+
+// ===== FILTROS UI =====
+window.setCategoria = (cat, btn) => {
+    categoriaActiva = cat;
+
+    document.querySelectorAll(".filter-btn")
+        .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    render();
+};
+
+window.toggleStock = () => {
+    soloStock = document.getElementById("stockCheck").checked;
+    render();
+};
+
+// INIT
+loadProductos();
+updateCartCount();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fixture PRO — Regatas Futsal</title>
+
+    <link rel="stylesheet" href="./css/fixture.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="announce">FIXTURE OFICIAL 2026</div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <img src="./public/regataslogo.jpg" class="logo-img">
+            <div>
+                <div class="brand">REGATAS</div>
+                <div class="sub">FUTSAL · MENDOZA</div>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="./categorias.html">Categorias</a></li>
+            <li><a href="./fixture.html">Fixture</a></li>
+            <li><a href="./catalogo.html">Indumentaria</a></li>
+            <li><a href="./contacto.html">Contacto</a></li>
+            <li>
+                <a href="./carrito.html" class="btn-nav">
+                    🛒 <span id="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <h1 class="title">Fixture</h1>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="cambiarTab('primera', this)">Primera</button>
+            <button class="tab" onclick="cambiarTab('b', this)">Primera B</button>
+            <button class="tab" onclick="cambiarTab('c13', this)">C13</button>
+            <button class="tab" onclick="cambiarTab('c15', this)">C15</button>
+        </div>
+
+        <div id="fixture-container"></div>
+
+    </div>
+
+    <script>
+
+        // ===== DATA =====
+        const fixtures = {
+
+            c13: [
+                { jornada: "Fecha 1", local: "Regatas", visitante: "Andes", score: "3-1", estado: "win" },
+                { jornada: "Fecha 2", local: "Regatas", visitante: "Maipú", score: "vs", estado: "pending" }
+            ],
+
+            c15: [
+                { jornada: "Fecha 1", local: "Regatas", visitante: "Banco", score: "2-2", estado: "draw" },
+                { jornada: "Fecha 2", local: "Regatas", visitante: "Godoy Cruz", score: "vs", estado: "pending" }
+            ],
+
+            primera: [
+                { fecha: "27 Feb", hora: "21:30", local: "Regatas", visitante: "Independiente Rivadavia", golesL: 3, golesV: 3, estado: "draw", cancha: "Regatas (Parque)" },
+                { fecha: "06 Mar", hora: "21:00", local: "CUC", visitante: "Regatas", golesL: 1, golesV: 1, estado: "draw", cancha: "Regatas (Parque)" },
+                { fecha: "13 Mar", hora: "22:30", local: "Cementista", visitante: "Regatas", golesL: 2, golesV: 1, estado: "lose", cancha: "Cementista" },
+                { fecha: "18 Mar", hora: "21:30", local: "Regatas", visitante: "Muni San Martin", golesL: 3, golesV: 4, estado: "lose", cancha: "Regatas (Parque)" },
+                { fecha: "27 Mar", hora: "21:00", local: "Jockey Club", visitante: "Regatas", golesL: 6, golesV: 3, estado: "lose", cancha: "Jockey Club" },
+                { fecha: "13 Apr", hora: "21:00", local: "Regatas", visitante: "Aleman", golesL: 0, golesV: 1, estado: "lose", cancha: "Regatas (Parque)" },
+                { fecha: "17 Apr", hora: "21:30", local: "Godoy Cruz", visitante: "Regatas", golesL: 1, golesV: 2, estado: "win", cancha: "Club Godoy Cruz AT" },
+                { fecha: "24 Apr", hora: "21:00", local: "Regatas", visitante: "Andes Talleres", golesL: 2, golesV: 0, estado: "win", cancha: "Regatas (Parque)" },
+
+                { fecha: "08 May", hora: "21:30", local: "Don Orione", visitante: "Regatas", estado: "pending", cancha: "Don Orione" },
+                { fecha: "15 May", hora: "21:00", local: "Regatas", visitante: "UMAZA", estado: "pending", cancha: "Regatas (Parque)" },
+                { fecha: "22 May", hora: "21:30", local: "Vistalba La Colonia", visitante: "Regatas", estado: "pending", cancha: "Vistalba La Colonia" },
+                { fecha: "29 May", hora: "21:00", local: "Regatas", visitante: "Don Bosco", estado: "pending", cancha: "Regatas (Parque)" },
+                { fecha: "05 Jun", hora: "22:00", local: "COP", visitante: "Regatas", estado: "pending", cancha: "ETIEC" },
+                { fecha: "12 Jun", hora: "21:00", local: "Regatas", visitante: "Banco Nacion", estado: "pending", cancha: "Regatas (Parque)" },
+                { fecha: "19 Jun", hora: "21:30", local: "Villa Hipodromo", visitante: "Regatas", estado: "pending", cancha: "Parque de los Niños" }
+            ],
+
+        
+        b: [
+
+                { fecha: "09 Mar", hora: "22:00", local: "Regatas B", visitante: "Ramef - Juventud Mendocina", golesL: 5, golesV: 2, estado: "win", cancha: "Regatas (Parque)" },
+
+                { fecha: "12 Mar", hora: "22:15", local: "Alianza Guaymallen B", visitante: "Regatas B", golesL: 0, golesV: 3, estado: "win", cancha: "Poliguay" },
+
+                { fecha: "20 Mar", hora: "22:30", local: "Regatas B", visitante: "San Pablo", golesL: 1, golesV: 2, estado: "lose", cancha: "Regatas (Parque)" },
+
+                { fecha: "26 Mar", hora: "21:30", local: "Gral San Martin", visitante: "Regatas B", golesL: 1, golesV: 2, estado: "win", cancha: "Gral San Martin" },
+
+                { fecha: "17 Apr", hora: "22:30", local: "Andes Talleres B", visitante: "Regatas B", golesL: 3, golesV: 1, estado: "lose", cancha: "Andes Talleres" },
+
+                { fecha: "24 Apr", hora: "22:30", local: "Regatas B", visitante: "Muni Maipu", golesL: 1, golesV: 2, estado: "lose", cancha: "Regatas (Parque)" },
+
+                { fecha: "27 Apr", hora: "22:00", local: "Regatas B", visitante: "Muni Lujan", golesL: 1, golesV: 0, estado: "win", cancha: "Regatas (Parque)" },
+
+                { fecha: "30 Apr", hora: "21:00", local: "Banco Nacion B", visitante: "Regatas B", golesL: 1, golesV: 3, estado: "win", cancha: "Club Banco Nacion" },
+
+                // PRÓXIMOS
+                { fecha: "08 May", hora: "22:30", local: "Regatas B", visitante: "Obras Mendoza", estado: "pending", cancha: "Regatas (Parque)" },
+
+                { fecha: "14 May", hora: "21:30", local: "Muni Lujan-Carrodilla", visitante: "Regatas B", estado: "pending", cancha: "Poli Carrodilla" },
+
+                { fecha: "21 May", hora: "21:30", local: "Regatas B", visitante: "Aleman B", estado: "pending", cancha: "Regatas (Torreon)" },
+
+                { fecha: "28 May", hora: "21:00", local: "Jockey Club B", visitante: "Regatas B", estado: "pending", cancha: "Jockey Club" },
+
+                { fecha: "11 Jun", hora: "21:30", local: "Regatas B", visitante: "Futsal Rivadavia", estado: "pending", cancha: "Regatas (Torreon)" }
+
+            ],
+        };
+        let categoriaActiva = "primera";
+
+        // ===== LOGOS =====
+        function getLogo(nombre) {
+            const map = {
+                "Regatas": "regatas.png",
+                "Independiente Rivadavia": "independiente.png",
+                "CUC": "cuc.png",
+                "Cementista": "cementista.png",
+                "Muni San Martin": "muni.png",
+                "Jockey Club": "jockey.png",
+                "Aleman": "aleman.png",
+                "Godoy Cruz": "godoycruz.png",
+                "Andes Talleres": "andes.png",
+                "Don Orione": "donorione.png",
+                "UMAZA": "umaza.png",
+                "Vistalba La Colonia": "vistalba.png",
+                "Don Bosco": "donbosco.png",
+                "COP": "cop.png",
+                "Banco Nacion": "banconacion.png",
+                "Villa Hipodromo": "hipodromo.png",
+
+                // 👇 B
+                "Regatas B": "regatas.png",
+                "Ramef - Juventud Mendocina": "ramef.png",
+                "Alianza Guaymallen B": "alianza.png",
+                "San Pablo": "sanpablo.png",
+                "Gral San Martin": "sanmartin.png",
+                "Andes Talleres B": "andes.png",
+                "Muni Maipu": "maipu.png",
+                "Muni Lujan": "lujan.png",
+                "Banco Nacion B": "banconacion.png",
+                "Obras Mendoza": "obras.png",
+                "Muni Lujan-Carrodilla": "carrodilla.png",
+                "Aleman B": "aleman.png",
+                "Jockey Club B": "jockey.png",
+                "Futsal Rivadavia": "rivadavia.png"
+            };
+
+            return "./public/logos/" + (map[nombre] || "default.png");
+        }
+        // ===== ESTADO TEXTO =====
+        function getEstadoTexto(e) {
+            if (e === "win") return "Ganado";
+            if (e === "lose") return "Perdido";
+            if (e === "draw") return "Empate";
+            return "Próximo";
+        }
+
+        // ===== RENDER =====
+        function renderFixture() {
+
+            const data = fixtures[categoriaActiva];
+            const container = document.getElementById("fixture-container");
+
+            container.innerHTML = data.map((p, i) => `
+
+        <div class="match ${p.estado}" style="animation-delay:${i * 0.08}s">
+
+            <div class="match-top">
+                <span>${p.fecha || p.jornada}</span>
+                <span>${p.hora || ""}</span>
+            </div>
+
+            <div class="teams">
+
+                <div class="team">
+                    <img src="${getLogo(p.local)}">
+                    <span>${p.local}</span>
+                </div>
+
+                <strong>
+                    ${p.estado === "pending"
+                    ? "vs"
+                    : (p.golesL !== undefined ? `${p.golesL} - ${p.golesV}` : p.score)
+                }
+                </strong>
+
+                <div class="team">
+                    <img src="${getLogo(p.visitante)}">
+                    <span>${p.visitante}</span>
+                </div>
+
+            </div>
+
+            <div class="match-bottom">
+                <span>${getEstadoTexto(p.estado)}</span>
+                <span>${p.cancha || ""}</span>
+            </div>
+
+        </div>
+
+    `).join("");
+        }
+
+        // ===== TABS =====
+        function cambiarTab(cat, btn) {
+
+            const container = document.getElementById("fixture-container");
+            container.style.opacity = 0;
+
+            setTimeout(() => {
+                categoriaActiva = cat;
+
+                document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+                btn.classList.add("active");
+
+                renderFixture();
+                container.style.opacity = 1;
+
+            }, 200);
+        }
+
+        // INIT
+        renderFixture();
+
+    </script>
+
+    <!-- carrito global -->
+    <script src="./js/cart.js"></script>
+    <script>
+        updateCartCount();
+    </script>
+
+</body>
+
+</html>

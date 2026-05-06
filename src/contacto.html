@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto — Regatas Futsal</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="./css/contacto.css" />
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <img src="./public/regataslogo.jpg" class="logo-img" alt="">
+            <div>
+                <div class="brand">REGATAS</div>
+                <div class="sub">FUTSAL · MENDOZA</div>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="./categorias.html">Categorias</a></li>
+            <li><a href="./fixture.html">Fixture</a></li>
+            <li><a href="./catalogo.html">Indumentaria</a></li>
+            <li><a href="./contacto.html">Contacto</a></li>
+            <li>
+                <a href="./carrito.html" class="btn-nav">
+                    🛒 <span id="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="contact-hero">
+        <div class="hero-content">
+        </div>
+    </section>
+
+    <div class="contact-layout">
+
+        <!-- REDES -->
+        <div class="contact-card">
+            <div class="card-title">Redes</div>
+
+            <a class="social-link" href="#">Instagram @regatasfutsal</a>
+            <a class="social-link" href="#">Facebook Regatas</a>
+            <a class="social-link" href="#">WhatsApp +54 9 261</a>
+
+        </div>
+
+        <!-- UBICACION + HORARIOS -->
+        <div class="contact-card">
+            <div class="card-title">Ubicación & Horarios</div>
+
+            <p>Av. Las Palmeras 1234<br>Mendoza</p>
+
+            <div id="horarios" style="margin-top:10px;"></div>
+
+        </div>
+
+        <!-- MAP -->
+        <div class="map">
+            <iframe src="https://www.google.com/maps?q=Mendoza&output=embed"></iframe>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 Regatas Futsal
+    </footer>
+
+    <script>
+        const HORARIOS = [
+            { dia: 'Lunes', hrs: '18:00–22:00' },
+            { dia: 'Martes', hrs: '18:00–22:00' },
+            { dia: 'Miércoles', hrs: '18:00–22:00' },
+            { dia: 'Jueves', hrs: '18:00–22:00' },
+            { dia: 'Viernes', hrs: '18:00–22:00' },
+            { dia: 'Sábado', hrs: '10:00–14:00' },
+            { dia: 'Domingo', hrs: 'Cerrado' }
+        ];
+
+        const mapDia = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
+        const hoy = mapDia[new Date().getDay()];
+
+        document.getElementById("horarios").innerHTML =
+            HORARIOS.map((h, i) => `
+<div class="horario-row ${i === hoy ? 'hoy' : ''}">
+<span>${h.dia}${i === hoy ? ' (Hoy)' : ''}</span>
+<span>${h.hrs}</span>
+</div>
+`).join('');
+    </script>
+    <script src="./js/cart.js"></script>
+    <script>
+        updateCartCount();
+    </script>
+
+</body>
+
+</html>

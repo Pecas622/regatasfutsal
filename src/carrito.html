@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito — Regatas Futsal</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="./css/carrito.css" />
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <img src="./public/regataslogo.jpg" class="logo-img" alt="Logo Regatas Futsal">
+            <div>
+                <div class="brand">REGATAS</div>
+                <div class="sub">FUTSAL · MENDOZA</div>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="./categorias.html">Categorias</a></li>
+            <li><a href="./fixture.html">Fixture</a></li>
+            <li><a href="./catalogo.html">Indumentaria</a></li>
+            <li><a href="./contacto.html">Contacto</a></li>
+            <li>
+                <a href="./carrito.html" class="btn-nav">
+                    🛒 <span id="cart-count">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="page-wrap">
+
+        <h1 class="page-title">Mi <em>Carrito</em></h1>
+        <p class="page-sub" id="page-sub">Revisá tu pedido</p>
+
+        <div class="cart-layout">
+
+            <!-- ITEMS -->
+            <div class="cart-items" id="cart-items"></div>
+
+            <!-- PANEL -->
+            <div class="payment-panel" id="payment-panel">
+
+                <div class="panel-section">
+                    <div class="panel-title">Resumen</div>
+                    <div id="summary-items"></div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="summary-total">$0</span>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+
+                    <div class="pago-titulo">Método de pago</div>
+
+                    <div class="pago-opciones">
+
+                        <div class="pago-opt selected" id="opt-sena" onclick="selectPago('sena')">
+                            <div class="pago-opt-radio"></div>
+                            <div class="pago-opt-info">
+                                <div class="pago-opt-label">Seña 50%</div>
+                                <div class="pago-opt-desc">Reservás el pedido</div>
+                            </div>
+                            <div class="pago-opt-monto" id="monto-sena">$0</div>
+                        </div>
+
+                        <div class="pago-opt" id="opt-total" onclick="selectPago('total')">
+                            <div class="pago-opt-radio"></div>
+                            <div class="pago-opt-info">
+                                <div class="pago-opt-label">Pago total</div>
+                                <div class="pago-opt-desc">100%</div>
+                            </div>
+                            <div class="pago-opt-monto" id="monto-total">$0</div>
+                        </div>
+
+                    </div>
+
+                    <div class="monto-pagar-box">
+                        <span class="monto-pagar-label">Pagás ahora</span>
+                        <span class="monto-pagar-val" id="monto-pagar-ahora">$0</span>
+                    </div>
+
+                </div>
+
+                <div class="panel-section">
+
+                    <div class="panel-title">Datos</div>
+
+                    <input type="text" id="f-nombre" placeholder="Nombre completo" />
+                    <input type="email" id="f-email" placeholder="Email" />
+                    <input type="tel" id="f-tel" placeholder="Teléfono" />
+
+                    <select id="f-categoria">
+                        <option value="">Categoría</option>
+                        <option value="c7">C7</option>
+                        <option value="c9">C9</option>
+                        <option value="c11">C11</option>
+                        <option value="c13">C13</option>
+                        <option value="c15">C15</option>
+                        <option value="primera">Primera</option>
+                    </select>
+
+                    <button class="btn-mp" id="btn-enviar" onclick="irAMercadoPago()">
+                        Pagar con Mercado Pago
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <span class="hashtags">#RegatasFutsal</span>
+        <p>© 2026 Regatas Mendoza</p>
+    </footer>
+
+    <!-- ================= JS ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="module">
+        import { db } from "./js/firebase.js";
+        import {
+            collection,
+            addDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const STORAGE_KEY = "atsc_carrito";
+
+        // ===== STORAGE =====
+        function getCarrito() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        }
+
+        function saveCarrito(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            renderCart();
+        }
+
+        // ===== CONTADOR NAV =====
+        function updateCartCount() {
+            const c = getCarrito();
+            const total = c.reduce((acc, p) => acc + p.cantidad, 0);
+            const el = document.getElementById("cart-count");
+            if (el) el.textContent = total;
+        }
+
+        // ===== RENDER =====
+        function renderCart() {
+            const cont = document.getElementById("cart-items");
+            const summary = document.getElementById("summary-items");
+            const carrito = getCarrito();
+
+            if (!carrito.length) {
+                cont.innerHTML = "<p>Carrito vacío</p>";
+                summary.innerHTML = "";
+                updateTotales();
+                updateCartCount();
+                return;
+            }
+
+            cont.innerHTML = carrito.map(p => `
+        <div class="cart-item">
+
+            <img src="./public/${p.imagen_url}" 
+                 onerror="this.src='./public/no-image.png'" 
+                 width="60">
+
+            <div>
+                <b>${p.producto_nombre}</b>
+                <p>Talle: ${p.talle}</p>
+                <p>$${p.precio}</p>
+            </div>
+
+            <div class="qty-box">
+                <button class="btn-qty" data-id="${p.producto_id}" data-talle="${p.talle}" data-delta="-1">-</button>
+                <span>${p.cantidad}</span>
+                <button class="btn-qty" data-id="${p.producto_id}" data-talle="${p.talle}" data-delta="1">+</button>
+            </div>
+
+            <button class="btn-delete" data-id="${p.producto_id}" data-talle="${p.talle}">
+                🗑
+            </button>
+
+        </div>
+    `).join("");
+
+            summary.innerHTML = carrito.map(p => `
+        <div>${p.producto_nombre} x${p.cantidad}</div>
+    `).join("");
+
+            updateTotales();
+            updateCartCount();
+        }
+
+        // ===== EVENTOS (PRO) =====
+        document.addEventListener("click", (e) => {
+
+            // ELIMINAR
+            const delBtn = e.target.closest(".btn-delete");
+            if (delBtn) {
+                const id = delBtn.dataset.id;
+                const talle = delBtn.dataset.talle;
+
+                Swal.fire({
+                    title: "¿Eliminar producto?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, borrar",
+                }).then(res => {
+                    if (res.isConfirmed) {
+                        eliminarItem(id, talle);
+                    }
+                });
+            }
+
+            // CAMBIAR CANTIDAD
+            const qtyBtn = e.target.closest(".btn-qty");
+            if (qtyBtn) {
+                const id = qtyBtn.dataset.id;
+                const talle = qtyBtn.dataset.talle;
+                const delta = parseInt(qtyBtn.dataset.delta);
+
+                cambiarCantidad(id, talle, delta);
+            }
+
+        });
+
+        // ===== FUNCIONES =====
+        function eliminarItem(id, talle) {
+            let c = getCarrito();
+            c = c.filter(p => !(p.producto_id === id && p.talle === talle));
+            saveCarrito(c);
+        }
+
+        function cambiarCantidad(id, talle, delta) {
+            let c = getCarrito();
+
+            const item = c.find(p => p.producto_id === id && p.talle === talle);
+            if (!item) return;
+
+            item.cantidad += delta;
+
+            if (item.cantidad <= 0) {
+                c = c.filter(p => !(p.producto_id === id && p.talle === talle));
+            }
+
+            saveCarrito(c);
+        }
+
+        // ===== TOTALES =====
+        function updateTotales() {
+            const carrito = getCarrito();
+
+            const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+            document.getElementById("summary-total").textContent = "$" + total;
+            document.getElementById("monto-total").textContent = "$" + total;
+            document.getElementById("monto-sena").textContent = "$" + Math.round(total * 0.5);
+
+            calcularPago();
+        }
+
+        // ===== PAGO =====
+        let tipoPago = "sena";
+
+        window.selectPago = (tipo) => {
+            tipoPago = tipo;
+
+            document.getElementById("opt-sena").classList.remove("selected");
+            document.getElementById("opt-total").classList.remove("selected");
+
+            document.getElementById("opt-" + tipo).classList.add("selected");
+
+            calcularPago();
+        };
+
+        function calcularPago() {
+            const carrito = getCarrito();
+            const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+            const monto = tipoPago === "sena" ? total * 0.5 : total;
+
+            document.getElementById("monto-pagar-ahora").textContent = "$" + Math.round(monto);
+        }
+
+        // ===== CHECKOUT =====
+        window.irAMercadoPago = async () => {
+            const carrito = getCarrito();
+            if (!carrito.length) return alert("Carrito vacío");
+
+            const nombre = document.getElementById("f-nombre").value;
+            const email = document.getElementById("f-email").value;
+            const tel = document.getElementById("f-tel").value;
+            const categoria = document.getElementById("f-categoria").value;
+
+            if (!nombre || !tel) {
+                alert("Completá los datos");
+                return;
+            }
+
+            const total = carrito.reduce((a, b) => a + b.precio * b.cantidad, 0);
+
+            try {
+                const docRef = await addDoc(collection(db, "pedidos"), {
+                    cliente: nombre,
+                    email,
+                    telefono: tel,
+                    categoria,
+                    productos: carrito,
+                    total,
+                    tipoPago,
+                    estado: "pendiente",
+                    fecha: serverTimestamp()
+                });
+
+                // WhatsApp
+                const msg = encodeURIComponent(
+                    `Pedido #${docRef.id}\n\n` +
+                    carrito.map(p =>
+                        `- ${p.producto_nombre} (${p.talle}) x${p.cantidad}`
+                    ).join("\n") +
+                    `\n\nTotal: $${total}`
+                );
+
+                window.open(`https://wa.me/5492615751033?text=${msg}`);
+
+                localStorage.removeItem(STORAGE_KEY);
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Pedido enviado",
+                    text: "Te contactamos por WhatsApp",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                renderCart();
+
+            } catch (e) {
+                console.error(e);
+                alert("Error al guardar pedido");
+            }
+        };
+
+        // INIT
+        renderCart();
+        updateCartCount();
+
+    </script>

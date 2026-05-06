@@ -1,0 +1,26 @@
+# Node
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Variables de entorno
+.env
+
+# Build
+dist/
+build/
+
+# Firebase
+.firebase/
+
+# IDE
+.vscode/
+
+# Ignorar README si querés (no recomendado)
+README.md

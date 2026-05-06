@@ -1,0 +1,266 @@
+
+/* VARIABLES */
+:root{
+    --bg:#070f1f;
+    --surface:#0f1a33;
+    --card:#111c38;
+    --border:rgba(255,255,255,.08);
+
+    --blue:#3b82f6;
+    --red:#ef4444;
+
+    --text:#e8eefc;
+    --muted:#7c8bb0;
+
+    --gradient:linear-gradient(135deg,var(--blue),var(--red));
+}
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Barlow',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* TOP BAR */
+.announce{
+    text-align:center;
+    font-size:.7rem;
+    padding:8px;
+    background:var(--gradient);
+    letter-spacing:.2em;
+}
+
+/* NAV */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 2rem;
+
+    border-bottom:1px solid var(--border);
+    background:rgba(15,26,51,0.85);
+    backdrop-filter:blur(10px);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:white;
+}
+
+.logo-img{
+    width:42px;
+    border-radius:50%;
+}
+
+.brand{
+    font-weight:600;
+    letter-spacing:.08em;
+}
+
+.sub{
+    font-size:.65rem;
+    color:var(--muted);
+}
+
+/* LINKS */
+.nav-links{
+    display:flex;
+    gap:1.5rem;
+    list-style:none;
+}
+
+.nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.85rem;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.btn-nav{
+    background:var(--gradient);
+    padding:8px 14px;
+    border-radius:6px;
+    color:white !important;
+}
+
+/* CONTENEDOR */
+.container{
+    margin-top:90px;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:40px;
+}
+
+/* TITULO */
+.title{
+    font-family:'Bebas Neue';
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+/* TABS */
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:30px;
+}
+
+.tab{
+    padding:10px 20px;
+    border:none;
+    background:var(--card);
+    color:var(--muted);
+    border-radius:6px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.tab.active{
+    background:var(--gradient);
+    color:white;
+}
+
+.tab:hover{
+    transform:translateY(-2px);
+}
+
+/* MATCH CARD */
+.match{
+    position:relative;
+    background:var(--card);
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    border:1px solid var(--border);
+
+    opacity:0;
+    transform: translateY(30px) scale(.98);
+    animation: fadeUp .6s ease forwards;
+
+    transition: all .25s ease;
+}
+
+/* ANIMACION ENTRADA */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* HOVER PRO */
+.match:hover{
+    transform: scale(1.02) translateY(-3px);
+    box-shadow:0 15px 35px rgba(0,0,0,.5);
+}
+
+/* LINEA TOP ANIMADA */
+.match::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    height:2px;
+    width:0;
+    background:var(--gradient);
+    transition:.3s;
+}
+
+.match:hover::before{
+    width:100%;
+}
+
+/* HEADER FECHA */
+.match-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    opacity:.7;
+    margin-bottom:5px;
+}
+
+.match-top span:first-child{
+    font-weight:600;
+    color:white;
+}
+
+/* EQUIPOS */
+.teams{
+    display:grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items:center;
+}
+
+/* TEAM */
+.team{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:14px;
+}
+
+.team img{
+    width:26px;
+    height:26px;
+    object-fit:contain;
+}
+
+/* SCORE */
+.teams strong{
+    font-family:'Bebas Neue';
+    font-size:26px;
+    letter-spacing:2px;
+    text-align:center;
+    transition:.3s;
+}
+
+.match:hover .teams strong{
+    transform:scale(1.2);
+}
+
+/* FOOTER MATCH */
+.match-bottom{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    opacity:.7;
+    margin-top:5px;
+}
+
+/* ESTADOS */
+.match.win{
+    border-left:4px solid #22c55e;
+}
+
+.match.lose{
+    border-left:4px solid #ef4444;
+}
+
+.match.draw{
+    border-left:4px solid #eab308;
+}
+
+.match.pending{
+    border-left:4px solid #3b82f6;
+}

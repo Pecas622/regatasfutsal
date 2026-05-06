@@ -1,0 +1,368 @@
+📚 REFERENCIA API - SISTEMA ADMIN CLUB PRO
+===========================================
+
+FUNCIONES GLOBALES DISPONIBLES
+==============================
+
+🔐 AUTENTICACIÓN
+================
+
+function login()
+├─ Descripción: Inicia sesión con email y contraseña
+├─ Campos HTML requeridos:
+│  ├─ #email (input type="email")
+│  └─ #pass (input type="password")
+├─ Resultado: 
+│  ├─ ✅ Success: Muestra panel admin
+│  └─ ❌ Error: Alert de SweetAlert
+├─ Uso:
+│  └─ <button onclick="login()">Entrar</button>
+
+function logout()
+├─ Descripción: Cierra la sesión actual
+├─ Resultado: Vuelve a login
+├─ Uso:
+│  └─ <button onclick="logout()">Salir</button>
+
+---
+
+💰 GESTIÓN DE CUOTAS
+====================
+
+function registrarPago()
+├─ Descripción: Registra un nuevo pago
+├─ Campos HTML requeridos:
+│  ├─ #p-nombre (input text)
+│  ├─ #p-dni (input number)
+│  ├─ #p-mes (input text, ej: "Abril")
+│  └─ #p-monto (input number)
+├─ Validaciones:
+│  └─ Todos los campos son obligatorios
+├─ Resultado:
+│  ├─ ✅ Success: Alert + tabla actualiza
+│  └─ ❌ Error: Alert de error
+├─ Firestore:
+│  └─ Crea documento en colección "pagos"
+├─ Uso:
+│  └─ <button onclick="registrarPago()">Guardar</button>
+
+function deletePago(id)
+├─ Descripción: Elimina un pago existente
+├─ Parámetros:
+│  └─ id: string (ID del documento en Firestore)
+├─ Comportamiento:
+│  ├─ Pide confirmación
+│  └─ Si confirma: elimina y actualiza tabla
+├─ Resultado:
+│  └─ ✅ Pago eliminado, dashboard actualizado
+├─ Uso:
+│  └─ <button onclick="deletePago('pago123')">Eliminar</button>
+
+function loadPagos()
+├─ Descripción: Carga y muestra tabla de pagos
+├─ Dispone HTML en:
+│  └─ #lista-pagos
+├─ Resultado:
+│  └─ Tabla con: nombre, dni, mes, monto, estado, botón eliminar
+├─ Uso automático:
+│  └─ Se ejecuta al registrar/eliminar pago
+
+---
+
+📊 DASHBOARD
+============
+
+function loadDashboard()
+├─ Descripción: Actualiza estadísticas y gráficos
+├─ Actualiza elementos:
+│  ├─ #total-ingresos (suma de montos)
+│  ├─ #total-pagos (cantidad de registros)
+│  └─ #chart-mes (gráfico Chart.js)
+├─ Cálculos:
+│  ├─ Total ingresos: Suma de todos los montos
+│  ├─ Pagos por mes: Agrupado por mes
+│  └─ Deudores: Comparación con jugadores
+├─ Gráfico:
+│  ├─ Tipo: Bar (barras)
+│  ├─ Eje X: Meses
+│  └─ Eje Y: Ingresos en $
+├─ Uso automático:
+│  ├─ Se ejecuta al login
+│  ├─ Al registrar pago
+│  └─ Al eliminar pago
+├─ Uso manual:
+│  └─ loadDashboard()
+
+function exportarExcel()
+├─ Descripción: Descarga tabla de pagos en Excel
+├─ Resultado:
+│  ├─ Archivo: pagos_YYYY-MM-DD.xlsx
+│  └─ Formato: XLSX (Excel moderno)
+├─ Contenido:
+│  ├─ Nombre jugador
+│  ├─ DNI
+│  ├─ Mes
+│  ├─ Monto
+│  ├─ Estado
+│  └─ Fecha
+├─ Requisito:
+│  └─ Mínimo 1 pago registrado
+├─ Uso:
+│  └─ <button onclick="exportarExcel()">Descargar Excel</button>
+
+---
+
+❌ DEUDORES AUTOMÁTICOS
+=======================
+
+function loadDeudores()
+├─ Descripción: Calcula y muestra deudores del mes
+├─ Lógica:
+│  ├─ Lee jugadores de "jugadores" colección
+│  ├─ Lee pagos del mes actual
+│  └─ Compara DNIs
+├─ Resultado:
+│  ├─ #lista-deudores: Tabla de deudores
+│  └─ #total-deudores: Contador
+├─ Campos mostrados:
+│  ├─ Nombre
+│  ├─ DNI
+│  └─ Botón WhatsApp
+├─ Uso automático:
+│  ├─ Se ejecuta al login
+│  └─ Al registrar pago
+├─ Uso manual:
+│  └─ loadDeudores()
+
+function recordarDeuda(nombre, telefono)
+├─ Descripción: Abre WhatsApp con mensaje predefinido
+├─ Parámetros:
+│  ├─ nombre: string (nombre jugador)
+│  └─ telefono: string (formato: 5491234567890)
+├─ Resultado:
+│  └─ Abre WhatsApp Web con mensaje
+├─ Mensaje automático:
+│  └─ "Hola {nombre}, te recordamos que tienes una deuda..."
+├─ Uso:
+│  └─ <button onclick="recordarDeuda('Juan', '5491234567890')">WhatsApp</button>
+
+---
+
+⚽ ASISTENCIA
+=============
+
+function registrarAsistencia()
+├─ Descripción: Registra presencia o ausencia
+├─ Campos HTML requeridos:
+│  ├─ #a-dni (input number)
+│  └─ #a-presente (input checkbox)
+├─ Resultado:
+│  ├─ ✅ Guardado: Alert de éxito
+│  └─ Documento creado en "asistencia"
+├─ Campos guardados:
+│  ├─ dni: number
+│  ├─ fecha: timestamp
+│  └─ presente: boolean
+├─ Uso:
+│  └─ <button onclick="registrarAsistencia()">Guardar</button>
+
+function loadAsistencia()
+├─ Descripción: Muestra asistencia del día actual
+├─ Dispone HTML en:
+│  └─ #lista-asistencia
+├─ Filtro:
+│  └─ Solo registros de hoy (fecha = hoy)
+├─ Campos mostrados:
+│  ├─ DNI
+│  └─ Estado (✅ Presente / ❌ Ausente)
+├─ Uso automático:
+│  └─ Se ejecuta al registrar asistencia
+├─ Uso manual:
+│  └─ loadAsistencia()
+
+---
+
+📜 HISTORIAL POR JUGADOR
+========================
+
+function buscarHistorial()
+├─ Descripción: Busca movimientos por DNI
+├─ Campos HTML requeridos:
+│  └─ #search-dni (input number)
+├─ Búsqueda:
+│  ├─ Query: where("dni", "==", valor)
+│  └─ Colección: "pagos"
+├─ Resultado:
+│  └─ #historial-result: Tabla con movimientos
+├─ Campos mostrados:
+│  ├─ Nombre
+│  ├─ Mes
+│  ├─ Monto
+│  └─ Fecha (formateada)
+├─ Orden:
+│  └─ Por fecha (más reciente primero en Firestore)
+├─ Uso:
+│  └─ <button onclick="buscarHistorial()">Buscar</button>
+
+---
+
+🎨 NAVEGACIÓN
+=============
+
+function showTab(tabName)
+├─ Descripción: Cambia entre tabs del panel
+├─ Parámetros:
+│  └─ tabName: string (ID del tab)
+├─ Tabs disponibles:
+│  ├─ 'dashboard'
+│  ├─ 'pagos'
+│  ├─ 'deudores'
+│  ├─ 'asistencia'
+│  └─ 'historial'
+├─ Comportamiento:
+│  ├─ Oculta todos los tabs
+│  ├─ Muestra el seleccionado
+│  └─ Marca botón como activo
+├─ Uso:
+│  └─ <button onclick="showTab('pagos')">Ir a Cuotas</button>
+
+---
+
+🔧 ELEMENTOS HTML REQUERIDOS
+
+Para que el sistema funcione, necesitas estos IDs:
+
+AUTENTICACIÓN
+#login-box - Contenedor login
+#admin-panel - Contenedor panel
+#email - Input email
+#pass - Input contraseña
+#user-info - Mostrar usuario actual
+
+DASHBOARD
+#dashboard - Tab dashboard (div)
+#total-ingresos - Mostrar total
+#total-pagos - Mostrar cantidad
+#total-deudores - Mostrar deudores
+#chart-mes - Canvas para gráfico
+
+CUOTAS
+#pagos - Tab cuotas (div)
+#p-nombre - Input nombre
+#p-dni - Input DNI
+#p-mes - Input mes
+#p-monto - Input monto
+#lista-pagos - Tabla pagos
+
+DEUDORES
+#deudores - Tab deudores (div)
+#lista-deudores - Tabla deudores
+
+ASISTENCIA
+#asistencia - Tab asistencia (div)
+#a-dni - Input DNI
+#a-presente - Checkbox presente
+#lista-asistencia - Tabla asistencia
+
+HISTORIAL
+#historial - Tab historial (div)
+#search-dni - Input buscar DNI
+#historial-result - Tabla resultados
+
+TABS
+.tab-btn - Botones tabs (class)
+.tab-content - Contenedores tabs (class)
+
+---
+
+🎯 FLUJO DE DATOS
+
+1. FIRESTORE
+   users/ → Acceso (auth)
+   jugadores/ → Datos jugadores
+   pagos/ → Movimientos
+   asistencia/ → Presencia
+
+2. JS
+   admin-system.js → Importa Firebase
+   admin.html → Importa admin-system.js
+   Funciones globales → window object
+
+3. UI
+   Usuarios escriben en inputs
+   Clicks disparan funciones
+   Firestore actualiza
+   Página re-renderiza
+
+---
+
+💡 EJEMPLOS DE USO
+
+Ejemplo 1: Registrar pago manualmente
+```html
+<input type="text" id="p-nombre" value="Juan Perez">
+<input type="number" id="p-dni" value="12345678">
+<input type="text" id="p-mes" value="Abril">
+<input type="number" id="p-monto" value="500">
+<button onclick="registrarPago()">Registrar</button>
+```
+
+Ejemplo 2: Buscar historial
+```html
+<input type="number" id="search-dni" value="12345678">
+<button onclick="buscarHistorial()">Buscar</button>
+```
+
+Ejemplo 3: Exportar Excel
+```html
+<button onclick="exportarExcel()">Descargar</button>
+```
+
+Ejemplo 4: Navegar tabs
+```html
+<button onclick="showTab('dashboard')">Dashboard</button>
+<button onclick="showTab('pagos')">Cuotas</button>
+```
+
+---
+
+🚨 VALIDACIONES
+
+El sistema valida:
+✅ Email en formato válido (Firebase)
+✅ Contraseña (Firebase)
+✅ Campos obligatorios en formularios
+✅ Números válidos
+✅ DNI como número
+
+---
+
+📦 DEPENDENCIAS
+
+Externas (CDN):
+- Chart.js v4
+- SheetJS v0.20.2
+- SweetAlert2 v11
+- Firebase SDK v10.12.2
+
+---
+
+🎓 INFORMACIÓN UTIL
+
+Acceder a Firestore desde console (DEBUG):
+```javascript
+// Ver configuración
+console.log(db);
+
+// Ver usuario actual
+console.log(auth.currentUser);
+
+// Ver rol
+console.log(currentRole);
+```
+
+---
+
+¡LISTO PARA USAR! 🚀
+
+Más info: README-SYSTEM.md

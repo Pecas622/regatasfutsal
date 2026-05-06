@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regatas Futsal · Mendoza</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./src/css/index.css">
+
+
+</head>
+
+<body>
+
+    <div class="scroll-line" id="scrollLine"></div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-msg" id="toast-msg">Pago registrado correctamente</span>
+    </div>
+
+    <!-- MODAL HISTORIAL -->
+    <div id="modal-historial">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>HISTORIAL DE PAGOS</h3>
+                <button class="modal-close" onclick="cerrarHistorial()">✕</button>
+            </div>
+            <div id="historial-lista">
+                <p style="color:var(--muted);text-align:center;padding:20px 0;font-size:.9rem;">No hay pagos registrados
+                    aún.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANNOUNCE -->
+    <div class="announce">TEMPORADA 2026 · INSCRIPCIONES ABIERTAS · MENDOZA</div>
+
+    <!-- NAV -->
+    <nav id="main-nav">
+        <a href="#" class="nav-logo">
+            <div class="logo-placeholder">R</div>
+            <div>
+                <div class="brand">REGATAS</div>
+                <div class="sub">FUTSAL · MENDOZA</div>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#categorias">Categorías</a></li>
+            <li><a href="#fixture">Fixture</a></li>
+            <li><a href="#cuotas">Cuotas</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="./src/catalogo.html">Indumentaria</a></li>
+            <li><a href="./src/carrito.html" class="btn-nav">🛒 <span id="cart-count">0</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio" style="padding-top:90px">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-accent"></div>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">TEMPORADA 2026</div>
+
+            <h1>
+                REGATAS
+                <span>FUTSAL</span>
+            </h1>
+
+            <p class="hero-sub">
+                Más de 100 años formando deportistas en Mendoza.<br>
+                Pasión, competencia y pertenencia en cada cancha.
+            </p>
+
+            <div class="hero-btns">
+                <a href="./src/catalogo.html" class="btn-primary">Indumentaria oficial</a>
+                <a href="#cuotas" class="btn-secondary">Inscribirme</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">+<span>100</span></div>
+                    <div class="stat-label">AÑOS DE HISTORIA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num"><span>6</span></div>
+                    <div class="stat-label">CATEGORÍAS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">+<span>200</span></div>
+                    <div class="stat-label">JUGADORES</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDENTIDAD -->
+    <section class="identidad">
+        <div class="identidad-inner">
+            <div class="identidad-text">
+                <h2>EL CLUB<br>QUE TE <em>FORMA</em></h2>
+                <p>Regatas Mendoza es mucho más que un club de futsal. Es una comunidad que lleva más de un siglo
+                    construyendo valores, esfuerzo y compromiso en cada uno de sus integrantes.</p>
+                <p>Desde la categoría infantil hasta el primer equipo, entrenamos para ganar dentro y fuera de la
+                    cancha.</p>
+                <br>
+                <a href="#cuotas" class="btn-primary">Sumate al club</a>
+            </div>
+            <div class="values-grid" id="categorias">
+                <div class="value-item">
+                    <div class="value-icon">🏆</div>
+                    <h3>COMPETENCIA</h3>
+                    <p>Participamos en las principales ligas de Mendoza y torneos nacionales.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">💪</div>
+                    <h3>FORMACIÓN</h3>
+                    <p>Entrenadores certificados con metodología de alto rendimiento.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h3>COMUNIDAD</h3>
+                    <p>Más de 200 familias que eligen Regatas como su segundo hogar.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">⚡</div>
+                    <h3>INTENSIDAD</h3>
+                    <p>Entrenamientos de calidad, dos veces por semana por categoría.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANTEL -->
+    <section class="plantel">
+        <div class="plantel-inner">
+            <div class="section-header">
+                <span class="section-label">PRIMER EQUIPO</span>
+                <h2>EL PLANTEL</h2>
+                <p>Los jugadores que representan los colores de Regatas en cada cancha de Mendoza.</p>
+            </div>
+            <div class="jugadores">
+                <div class="jugador">
+                    <div class="jugador-img">
+                        <span class="jugador-silhouette">🧑</span>
+                        <div class="jugador-num">#10</div>
+                    </div>
+                    <div class="jugador-info">
+                        <span class="jugador-badge">#10</span>
+                        <div class="jugador-name">JUGADOR PIVOT</div>
+                        <div class="jugador-pos">Pivot — Capitán</div>
+                    </div>
+                </div>
+                <div class="jugador">
+                    <div class="jugador-img">
+                        <span class="jugador-silhouette">🧑</span>
+                        <div class="jugador-num">#5</div>
+                    </div>
+                    <div class="jugador-info">
+                        <span class="jugador-badge">#5</span>
+                        <div class="jugador-name">JUGADOR CIERRE</div>
+                        <div class="jugador-pos">Cierre — Defensa</div>
+                    </div>
+                </div>
+                <div class="jugador">
+                    <div class="jugador-img">
+                        <span class="jugador-silhouette">🧤</span>
+                        <div class="jugador-num">#1</div>
+                    </div>
+                    <div class="jugador-info">
+                        <span class="jugador-badge">#1</span>
+                        <div class="jugador-name">JUGADOR ARQUERO</div>
+                        <div class="jugador-pos">Arquero — Portero</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FIXTURE -->
+    <section class="fixture" id="fixture">
+        <div class="fixture-inner">
+            <div class="section-header">
+                <span class="section-label">PRÓXIMOS PARTIDOS</span>
+                <h2>FIXTURE</h2>
+                <p>Seguí los próximos compromisos del primer equipo y las categorías formativas.</p>
+            </div>
+            <div class="partidos">
+                <div class="partido">
+                    <div class="partido-left">
+                        <div class="partido-teams">Regatas vs Andes Talleres</div>
+                        <div class="partido-comp">LIGA MENDOCINA · ZONA A</div>
+                    </div>
+                    <div class="partido-right">
+                        <div class="partido-fecha">Vie 9 · 21:30</div>
+                        <span class="partido-tag local">LOCAL</span>
+                    </div>
+                </div>
+                <div class="partido">
+                    <div class="partido-left">
+                        <div class="partido-teams">Regatas vs Alemán</div>
+                        <div class="partido-comp">LIGA MENDOCINA · ZONA A</div>
+                    </div>
+                    <div class="partido-right">
+                        <div class="partido-fecha">Mar 13 · 22:00</div>
+                        <span class="partido-tag">VISITANTE</span>
+                    </div>
+                </div>
+                <div class="partido">
+                    <div class="partido-left">
+                        <div class="partido-teams">Regatas vs Huracán FC</div>
+                        <div class="partido-comp">COPA MENDOZA · CUARTOS</div>
+                    </div>
+                    <div class="partido-right">
+                        <div class="partido-fecha">Sáb 17 · 20:00</div>
+                        <span class="partido-tag local">LOCAL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUOTAS / PAGOS -->
+    <section class="cuotas" id="cuotas">
+        <div class="cuotas-inner">
+            <div class="section-header">
+                <span class="section-label">SISTEMA DE CUOTAS</span>
+                <h2>INSCRIPCIÓN Y PAGOS</h2>
+                <p>Elegí tu categoría, completá tus datos y aboná tu cuota mensual de forma simple.</p>
+            </div>
+
+            <div class="cuotas-grid">
+                <!-- PLANES -->
+                <div>
+                    <p
+                        style="font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:16px;">
+                        Seleccioná tu plan</p>
+                    <div class="planes">
+
+                        <div class="plan" id="plan-infantil" onclick="seleccionarPlan(this,'Infantil','$8.500')">
+                            <div class="plan-header">
+                                <div class="plan-name">INFANTIL</div>
+                                <div class="plan-price">
+                                    <div class="amount">$8.500</div>
+                                    <span class="freq">por mes</span>
+                                </div>
+                            </div>
+                            <ul class="plan-includes">
+                                <li>Categorías Sub-10 y Sub-12</li>
+                                <li>2 entrenamientos semanales</li>
+                                <li>Cobertura médica deportiva</li>
+                                <li>Participación en torneos</li>
+                            </ul>
+                        </div>
+
+                        <div class="plan destacado" id="plan-juvenil"
+                            onclick="seleccionarPlan(this,'Juvenil','$10.500')">
+                            <div class="plan-badge">MÁS ELEGIDO</div>
+                            <div class="plan-header">
+                                <div class="plan-name">JUVENIL</div>
+                                <div class="plan-price">
+                                    <div class="amount">$10.500</div>
+                                    <span class="freq">por mes</span>
+                                </div>
+                            </div>
+                            <ul class="plan-includes">
+                                <li>Categorías Sub-14, Sub-16 y Sub-18</li>
+                                <li>3 entrenamientos semanales</li>
+                                <li>Cobertura médica deportiva</li>
+                                <li>Participación en liga oficial</li>
+                                <li>Kit de entrenamiento</li>
+                            </ul>
+                        </div>
+
+                        <div class="plan" id="plan-senior" onclick="seleccionarPlan(this,'Senior / Adultos','$12.000')">
+                            <div class="plan-header">
+                                <div class="plan-name">SENIOR / ADULTOS</div>
+                                <div class="plan-price">
+                                    <div class="amount">$12.000</div>
+                                    <span class="freq">por mes</span>
+                                </div>
+                            </div>
+                            <ul class="plan-includes">
+                                <li>Primera división y reserva</li>
+                                <li>3 entrenamientos + partido</li>
+                                <li>Cobertura médica completa</li>
+                                <li>Acceso a instalaciones</li>
+                                <li>Kit completo de competencia</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <br>
+                    <button onclick="abrirHistorial()"
+                        style="background:transparent;border:1px solid var(--border2);color:var(--muted);padding:10px 20px;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:.82rem;width:100%;transition:all .2s;"
+                        onmouseover="this.style.borderColor='rgba(255,255,255,.25)';this.style.color='var(--text)'"
+                        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)'">
+                        Ver historial de pagos →
+                    </button>
+                </div>
+
+                <!-- FORMULARIO DE PAGO -->
+                <div class="pago-form">
+                    <div class="pago-title">ABONAR CUOTA</div>
+                    <p class="pago-sub">Completá tus datos para registrar el pago mensual.</p>
+
+                    <div class="form-row">
+                        <label>Nombre completo</label>
+                        <input type="text" id="f-nombre" placeholder="Ej: Juan Pérez">
+                    </div>
+
+                    <div class="form-row">
+                        <label>DNI del jugador</label>
+                        <input type="text" id="f-dni" placeholder="Ej: 38.456.789">
+                    </div>
+
+                    <div class="form-row">
+                        <label>Categoría</label>
+                        <select id="f-categoria">
+                            <option value="">Seleccioná una categoría</option>
+                            <option>Sub-10</option>
+                            <option>Sub-12</option>
+                            <option>Sub-14</option>
+                            <option>Sub-16</option>
+                            <option>Sub-18</option>
+                            <option>Primera División</option>
+                            <option>Reserva</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label>Mes a abonar</label>
+                        <select id="f-mes">
+                            <option value="">Seleccioná el mes</option>
+                            <option>Enero 2026</option>
+                            <option>Febrero 2026</option>
+                            <option>Marzo 2026</option>
+                            <option>Abril 2026</option>
+                            <option selected>Mayo 2026</option>
+                            <option>Junio 2026</option>
+                            <option>Julio 2026</option>
+                            <option>Agosto 2026</option>
+                            <option>Septiembre 2026</option>
+                            <option>Octubre 2026</option>
+                            <option>Noviembre 2026</option>
+                            <option>Diciembre 2026</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label>Método de pago</label>
+                        <select id="f-metodo">
+                            <option>Transferencia bancaria</option>
+                            <option>Efectivo en sede</option>
+                            <option>Mercado Pago</option>
+                            <option>Débito automático</option>
+                        </select>
+                    </div>
+
+                    <div class="pago-resumen" id="resumen-box">
+                        <div class="resumen-row">
+                            <span>Plan seleccionado</span>
+                            <span class="val" id="res-plan">— Sin seleccionar —</span>
+                        </div>
+                        <div class="resumen-row">
+                            <span>Mes</span>
+                            <span id="res-mes">—</span>
+                        </div>
+                        <div class="resumen-row total">
+                            <span>TOTAL</span>
+                            <span class="val" id="res-total">$ —</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-pagar" onclick="registrarPago()">
+                        <span>REGISTRAR PAGO</span>
+                        <span>→</span>
+                    </button>
+
+                    <div class="seguro-note">
+                        🔒 Tus datos están protegidos · Transacción segura
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta" id="contacto">
+        <div class="cta-box">
+            <h2>SUMATE A REGATAS</h2>
+            <p>Entrená, competí y viví el futsal al máximo nivel en Mendoza. El club te espera con las puertas abiertas.
+            </p>
+            <div class="hero-btns" style="justify-content:center;">
+                <a href="./src/contacto.html" class="btn-primary">Contactanos</a>
+                <a href="#cuotas" class="btn-secondary">Ver planes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <strong>REGATAS FUTSAL MENDOZA</strong> · © 2026 · Todos los derechos reservados
+    </footer>
+
+    <script src="./src/js/cart.js" onerror="console.log('cart.js no encontrado')"></script>
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBoGkV8H7wQbmCODjE-FjooFyHSd5DF2Xw",
+            authDomain: "voz-arg-2c418.firebaseapp.com",
+            projectId: "voz-arg-2c418",
+            storageBucket: "voz-arg-2c418.firebasestorage.app",
+            messagingSenderId: "183648059891",
+            appId: "1:183648059891:web:09bf47bab7a58896ba1286",
+            measurementId: "G-9DMPEHV3TC"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        // --- SCROLL ---
+        const nav = document.getElementById('main-nav');
+        const scrollLine = document.getElementById('scrollLine');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollLine.style.width = pct + '%';
+            nav.classList.toggle('scrolled', scrollTop > 80);
+        });
+
+        // --- PLAN SELECTOR ---
+        let planActual = { nombre: '', precio: '' };
+
+        function seleccionarPlan(el, nombre, precio) {
+            document.querySelectorAll('.plan').forEach(p => p.classList.remove('selected'));
+            el.classList.add('selected');
+            planActual = { nombre, precio };
+            document.getElementById('res-plan').textContent = nombre;
+            document.getElementById('res-total').textContent = precio;
+            actualizarMes();
+        }
+
+        function actualizarMes() {
+            const mes = document.getElementById('f-mes').value;
+            document.getElementById('res-mes').textContent = mes || '—';
+        }
+
+        document.getElementById('f-mes').addEventListener('change', actualizarMes);
+
+        // --- REGISTRO PAGO ---
+        async function registrarPago() {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const dni = document.getElementById('f-dni').value.trim();
+    const categoria = document.getElementById('f-categoria').value;
+    const mes = document.getElementById('f-mes').value;
+    const metodo = document.getElementById('f-metodo').value;
+
+    if (!nombre || !dni || !categoria || !mes || !planActual.nombre) {
+        mostrarToast('Completá todos los campos', true);
+        return;
+    }
+
+    try {
+        // 🔒 VERIFICAR SI YA PAGÓ
+        const q = query(collection(db, "pagos"));
+        const snap = await getDocs(q);
+
+        const yaExiste = snap.docs.some(doc => {
+            const p = doc.data();
+            return p.dni === dni && p.mes === mes;
+        });
+
+        if (yaExiste) {
+            mostrarToast("Este jugador ya pagó ese mes", true);
+            return;
+        }
+
+        // 💾 GUARDAR PAGO
+        const pago = {
+            nombre,
+            dni,
+            categoria,
+            plan: planActual.nombre,
+            monto: planActual.precio,
+            mes,
+            metodo,
+            fecha: new Date(),
+            estado: "pagado"
+        };
+
+        await addDoc(collection(db, "pagos"), pago);
+
+        mostrarToast("Pago registrado correctamente ✓");
+
+    } catch (error) {
+        console.error(error);
+        mostrarToast("Error al guardar el pago", true);
+    }
+}
+        // --- TOAST ---
+        function mostrarToast(msg, error = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.style.borderColor = error ? 'rgba(239,68,68,.4)' : 'rgba(74,222,128,.3)';
+            toast.querySelector('.toast-icon').textContent = error ? '!' : '✓';
+            toast.querySelector('.toast-icon').style.color = error ? '#ef4444' : '#4ade80';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        // --- HISTORIAL ---
+        async function abrirHistorial() {
+            const lista = document.getElementById('historial-lista');
+
+            try {
+                const q = query(collection(db, "pagos"), orderBy("fecha", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    lista.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px 0;">No hay pagos aún.</p>`;
+                } else {
+                    lista.innerHTML = "";
+
+                    querySnapshot.forEach(doc => {
+                        const p = doc.data();
+
+                        lista.innerHTML += `
+          <div class="historial-item">
+            <div class="hist-left">
+              <div class="hist-nombre">${p.nombre} · DNI ${p.dni}</div>
+              <div class="hist-detalle">${p.plan} — ${p.categoria} · ${p.mes} · ${p.metodo}</div>
+            </div>
+            <div class="hist-right">
+              <div class="hist-monto">${p.monto}</div>
+              <span class="hist-estado ${p.estado}">${p.estado}</span>
+            </div>
+          </div>
+        `;
+                    });
+                }
+
+                document.getElementById('modal-historial').classList.add('open');
+
+            } catch (error) {
+                console.error(error);
+                mostrarToast("Error al cargar historial", true);
+            }
+        }
+
+        function cerrarHistorial() {
+            document.getElementById('modal-historial').classList.remove('open');
+        }
+
+        document.getElementById('modal-historial').addEventListener('click', function (e) {
+            if (e.target === this) cerrarHistorial();
+        });
+
+        // Cart count
+        try { if (typeof updateCartCount === 'function') updateCartCount(); } catch (e) { }
+        window.registrarPago = registrarPago;
+        window.abrirHistorial = abrirHistorial;
+        window.cerrarHistorial = cerrarHistorial;
+        window.seleccionarPlan = seleccionarPlan;
+    </script>
+
+</body>
+
+</html>

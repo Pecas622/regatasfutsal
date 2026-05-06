@@ -1,0 +1,272 @@
+/* VARIABLES */
+:root{
+    --bg:#070f1f;
+    --surface:#0f1a33;
+    --card:#111c38;
+    --border:rgba(255,255,255,.08);
+
+    --blue:#3b82f6;
+    --red:#ef4444;
+
+    --text:#e8eefc;
+    --muted:#7c8bb0;
+
+    --gradient:linear-gradient(135deg,var(--blue),var(--red));
+}
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* TOP BAR */
+.announce{
+    text-align:center;
+    font-size:.7rem;
+    padding:8px;
+    background:var(--gradient);
+    letter-spacing:.2em;
+}
+
+/* 🔵 NAV */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.2rem 2rem;
+
+    border-bottom:1px solid var(--border);
+    background:rgba(15,26,51,0.85);
+    backdrop-filter:blur(10px);
+}
+
+nav.scrolled{
+    background:rgba(15,26,51,0.98);
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:white;
+}
+
+.logo-img{
+    width:42px;
+    border-radius:50%;
+}
+
+.brand{
+    font-weight:600;
+    letter-spacing:.08em;
+}
+
+.sub{
+    font-size:.65rem;
+    color:var(--muted);
+}
+
+/* LINKS */
+.nav-links{
+    display:flex;
+    gap:1.5rem;
+    list-style:none;
+}
+
+.nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.85rem;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.btn-nav{
+    background:var(--gradient);
+    padding:8px 14px;
+    border-radius:6px;
+    color:white !important;
+}
+
+/* HAMBURGUESA */
+.menu-toggle{
+    display:none;
+    font-size:26px;
+    cursor:pointer;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width:768px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:70px;
+        right:0;
+        width:100%;
+        background:#0f1a33;
+
+        flex-direction:column;
+        align-items:center;
+        gap:20px;
+
+        padding:30px 0;
+
+        transform:translateY(-120%);
+        opacity:0;
+        transition:.3s;
+    }
+
+    .nav-links.active{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+/* 📦 CONTENEDOR */
+.container{
+    margin-top:90px;
+    padding:40px;
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* 🏷 TITULOS */
+.section-title{
+    font-family:'Bebas Neue';
+    font-size:34px;
+    margin:50px 0 20px;
+    letter-spacing:.05em;
+    position:relative;
+}
+
+/* línea decorativa */
+.section-title::after{
+    content:"";
+    display:block;
+    width:60px;
+    height:3px;
+    background:var(--gradient);
+    margin-top:6px;
+}
+
+/* 🧩 GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:20px;
+}
+
+/* 🃏 CARD */
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    position:relative;
+    transition:.3s;
+    overflow:hidden;
+}
+
+/* glow hover */
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top left, rgba(59,130,246,.2), transparent 60%);
+    opacity:0;
+    transition:.3s;
+}
+
+.card:hover::before{
+    opacity:1;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.6);
+}
+
+/* TITULO */
+.card h3{
+    font-family:'Bebas Neue';
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+/* INFO */
+.card p{
+    font-size:14px;
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+/* BADGE */
+.badge{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:#22c55e;
+    padding:5px 10px;
+    border-radius:6px;
+    font-size:12px;
+}
+
+.special{
+    background:var(--red);
+}
+
+/* DESTACADO (Primera) */
+.highlight{
+    border:1px solid var(--blue);
+}
+
+/* 🎯 BOTON */
+.card button{
+    margin-top:12px;
+    width:100%;
+    padding:8px;
+    border:none;
+    border-radius:6px;
+    background:var(--gradient);
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card button:hover{
+    transform:scale(1.05);
+}
+
+/* 📱 RESPONSIVE */
+@media(max-width:768px){
+    .container{
+        padding:20px;
+    }
+
+    .section-title{
+        font-size:28px;
+    }
+}

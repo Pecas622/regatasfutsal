@@ -1,0 +1,125 @@
+📋 CONFIGURACIÓN FIREBASE REQUIRED
+========================================
+
+El sistema está listo. Solo falta configurar Firebase.
+
+🔑 PASO 1: Crear Usuarios en Firebase Auth
+==========================================
+
+1. Ve a: https://console.firebase.google.com/project/voz-arg-2c418/authentication
+2. Click en "Agregar usuario" (o Email/Password)
+3. Crea estos 3 usuarios:
+
+   👤 Email: admin@club.com
+      Contraseña: admin@123
+      
+   👤 Email: tesorero@club.com
+      Contraseña: tesorero@123
+      
+   👤 Email: entrenador@club.com
+      Contraseña: entrenador@123
+
+⚠️ Copia los UIDs que se generan automáticamente, los necesitarás.
+
+📊 PASO 2: Firestore - Crear Colección "users"
+==============================================
+
+1. Ve a: https://console.firebase.google.com/project/voz-arg-2c418/firestore
+2. Click "Crear colección"
+3. Nombre: "users"
+
+4. Agrega estos documentos (usa los UIDs del Paso 1):
+
+   Documento 1 - uid: admin123
+   {
+     "nombre": "Santiago Admin",
+     "email": "admin@club.com",
+     "rol": "admin"
+   }
+
+   Documento 2 - uid: tesorero123
+   {
+     "nombre": "Juan Tesorero",
+     "email": "tesorero@club.com",
+     "rol": "tesorero"
+   }
+
+   Documento 3 - uid: entrenador123
+   {
+     "nombre": "Carlos Entrenador",
+     "email": "entrenador@club.com",
+     "rol": "entrenador"
+   }
+
+👥 PASO 3: Firestore - Crear Colección "jugadores"
+================================================
+
+1. Crea nueva colección: "jugadores"
+
+2. Agrega jugadores (documento ID puede ser: jug_XXXXXXX):
+
+   Documento 1 - ID: jug_12345678
+   {
+     "nombre": "Lionel Messi",
+     "dni": 12345678,
+     "categoria": "A",
+     "telefono": "5491123456789"
+   }
+
+   Documento 2 - ID: jug_23456789
+   {
+     "nombre": "Juan Perez",
+     "dni": 23456789,
+     "categoria": "B",
+     "telefono": "5491987654321"
+   }
+
+   (Agrega más jugadores según necesites)
+
+🔒 PASO 4: Firestore - Configurar Reglas de Seguridad (OPCIONAL pero RECOMENDADO)
+==============================================================================
+
+1. Ve a: Firestore → Reglas
+2. Reemplaza con esto:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Solo lectores autenticados
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Más adelante: controlar por rol
+    // match /pagos/{document=**} {
+    //   allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.rol in ["admin", "tesorero"];
+    //   allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.rol == "admin";
+    // }
+  }
+}
+
+✅ LISTO!
+
+Ahora puedes usar el sistema:
+
+1. Abre: src/admin.html
+2. Login con:
+   - admin@club.com / admin@123
+   - tesorero@club.com / tesorero@123
+   - entrenador@club.com / entrenador@123
+
+3. El sistema detectará automáticamente tu rol
+
+📝 FUNCIONES DISPONIBLES:
+
+✅ Login/Logout
+✅ Dashboard (gráficos + estadísticas)
+✅ Registrar cuotas
+✅ Ver deudores
+✅ Control asistencia
+✅ Historial por jugador
+✅ Exportar a Excel
+✅ WhatsApp automático
+
+🚀 ¡SISTEMA LISTO!

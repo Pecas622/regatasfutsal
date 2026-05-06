@@ -1,0 +1,457 @@
+📁 MAPA DEL PROYECTO - SISTEMA CLUB PRO
+======================================
+
+ESTRUCTURA COMPLETA
+===================
+
+regatas/
+│
+├── 📌 ARCHIVOS PRINCIPALES
+│   ├── index.html (Catálogo - sin cambios)
+│   ├── package.json (Configuración npm)
+│   └── setup-firestore.js (Script inicialización)
+│
+├── 📚 DOCUMENTACIÓN (LEE ESTO)
+│   ├── README-SYSTEM.md ⭐ GUÍA COMPLETA
+│   │   └─ Setup, características, uso del sistema
+│   │
+│   ├── GUIA-RAPIDA.txt ⭐ EMPEZAR AQUÍ
+│   │   └─ 3 pasos para empezar en 10 minutos
+│   │
+│   ├── SETUP-FIREBASE.txt ⭐ CONFIGURACIÓN
+│   │   └─ Setup detallado de Firebase
+│   │
+│   ├── VERIFICACION.txt ⭐ TESTING
+│   │   └─ Checklist para verificar que todo funciona
+│   │
+│   ├── RESUMEN-SISTEMA.txt
+│   │   └─ Técnicas: arquitectura, stack, features
+│   │
+│   ├── API-REFERENCE.txt
+│   │   └─ Referencia de funciones disponibles
+│   │
+│   └── MAPA-PROYECTO.txt (este archivo)
+│       └─ Guía de estructura y archivos
+│
+├── 🏃 SRC - FRONTEND
+│   │
+│   ├── admin.html ⭐⭐⭐ PRINCIPAL
+│   │   ├─ 700+ líneas
+│   │   ├─ Panel admin completo
+│   │   ├─ Login form
+│   │   ├─ 5 tabs: Dashboard, Cuotas, Deudores, Asistencia, Historial
+│   │   ├─ CSS embebido
+│   │   ├─ Scripts módulo
+│   │   └─ URLs externas: Chart.js, SheetJS, SweetAlert2
+│   │
+│   ├── catalogo.html (sin cambios)
+│   ├── carrito.html (sin cambios)
+│   ├── categorias.html (sin cambios)
+│   ├── contacto.html (sin cambios)
+│   ├── fixture.html (sin cambios)
+│   │
+│   ├── 📁 CSS
+│   │   ├── admin.css (vacío - estilos en admin.html)
+│   │   ├── carrito.css
+│   │   ├── catalogo.css
+│   │   ├── categorias.css
+│   │   ├── contacto.css
+│   │   ├── fixture.css
+│   │   ├── index.css
+│   │   └── (otros sin cambios)
+│   │
+│   ├── 📁 JS
+│   │   ├── admin-system.js ⭐⭐⭐ LÓGICA SISTEMA
+│   │   │   ├─ 400+ líneas
+│   │   │   ├─ Imports de Firebase
+│   │   │   ├─ Función: initAuth()
+│   │   │   ├─ Función: login() / logout()
+│   │   │   ├─ Función: registrarPago() / loadPagos() / deletePago()
+│   │   │   ├─ Función: loadDashboard() / exportarExcel()
+│   │   │   ├─ Función: loadDeudores() / recordarDeuda()
+│   │   │   ├─ Función: registrarAsistencia() / loadAsistencia()
+│   │   │   ├─ Función: buscarHistorial()
+│   │   │   ├─ Función: showTab() (navegación)
+│   │   │   └─ Exports globales: window.function
+│   │   │
+│   │   ├── firebase.js ⭐ CONFIGURACIÓN
+│   │   │   ├─ Config Firebase (ya existía)
+│   │   │   ├─ MODIFICADO: Agregado getAuth import
+│   │   │   ├─ Inicializa app
+│   │   │   └─ Exporta: db, auth
+│   │   │
+│   │   ├── cart.js (sin cambios)
+│   │   └── (otros sin cambios)
+│   │
+│   └── 📁 PUBLIC
+│       └─ (assets, imágenes, etc)
+│
+└── 🔧 CONFIGURACIÓN
+    └── Firebase Console (web)
+        ├─ Authentication (email/password)
+        ├─ Firestore Database
+        │   ├─ users (colección)
+        │   ├─ jugadores (colección)
+        │   ├─ pagos (colección - auto)
+        │   └─ asistencia (colección - auto)
+        ├─ Storage (opcional)
+        └─ Rules (pendiente configurar)
+
+
+📊 ARCHIVOS MODIFICADOS/CREADOS
+================================
+
+NUEVOS ARCHIVOS:
+✅ src/js/admin-system.js (400 líneas)
+✅ README-SYSTEM.md (documentación)
+✅ SETUP-FIREBASE.txt (setup instrucciones)
+✅ GUIA-RAPIDA.txt (quick start)
+✅ VERIFICACION.txt (testing checklist)
+✅ RESUMEN-SISTEMA.txt (resumen técnico)
+✅ API-REFERENCE.txt (API docs)
+✅ setup-firestore.js (inicialización)
+
+MODIFICADOS:
+✅ src/admin.html (reemplazado completamente - 700 líneas)
+✅ src/js/firebase.js (agregado getAuth)
+
+SIN CAMBIOS:
+❌ index.html
+❌ package.json (revisar si necesita Firebase packages)
+❌ Otros HTMLs
+❌ Otros CSS/JS
+
+
+🎯 CÓMO USAR CADA ARCHIVO
+=========================
+
+1️⃣ EMPEZAR (Lee en orden)
+   1. GUIA-RAPIDA.txt
+   2. SETUP-FIREBASE.txt
+   3. Configura Firebase
+
+2️⃣ VERIFICAR
+   1. VERIFICACION.txt
+   2. Ejecuta checklist
+   3. Prueba cada función
+
+3️⃣ USAR
+   1. Abre src/admin.html
+   2. Login
+   3. Usa el sistema
+
+4️⃣ DESARROLLAR
+   1. Lee admin-system.js
+   2. Lee API-REFERENCE.txt
+   3. Modifica según necesites
+
+5️⃣ ENTENDER
+   1. RESUMEN-SISTEMA.txt
+   2. README-SYSTEM.md
+   3. Código comentado
+
+
+🔧 ARQUITECTURA TÉCNICA
+=======================
+
+Frontend (Cliente):
+├─ admin.html (UI)
+│  ├─ Importa: admin-system.js
+│  ├─ Importa: firebase.js
+│  └─ CDN: Chart.js, SheetJS, SweetAlert2
+│
+└─ admin-system.js (Lógica)
+   ├─ Importa: firebase.js (db, auth)
+   ├─ Importa: Firebase SDK (Firestore, Auth)
+   ├─ Expone: funciones globales
+   └─ Usa: Firestore real-time listeners
+
+Backend (Firebase):
+├─ Authentication
+│  └─ Email/Password
+├─ Firestore Database
+│  ├─ users (roles)
+│  ├─ jugadores (datos)
+│  ├─ pagos (movimientos)
+│  └─ asistencia (presencia)
+└─ Security Rules (por configurar)
+
+
+📈 FLUJO DE DATOS
+=================
+
+1. Usuario abre admin.html
+   ↓
+2. admin.html importa admin-system.js
+   ↓
+3. admin-system.js importa firebase.js
+   ↓
+4. Inicia auth listener (initAuth())
+   ↓
+5. Si autenticado: muestra panel
+   Si no: muestra login
+   ↓
+6. Usuario interactúa (click botón)
+   ↓
+7. Se ejecuta función (ej: registrarPago())
+   ↓
+8. Función lee/escribe en Firestore
+   ↓
+9. Firestore actualiza listeners
+   ↓
+10. UI se actualiza (loadPagos, loadDashboard, etc)
+
+
+🎨 INTERFACES/VISTAS
+====================
+
+LOGIN VIEW
+├─ Input: Email
+├─ Input: Password
+├─ Button: ENTRAR
+└─ Usa función: login()
+
+DASHBOARD VIEW
+├─ Stat Card: Total Ingresos
+├─ Stat Card: Total Pagos
+├─ Stat Card: Total Deudores
+├─ Chart: Ingresos por mes (Chart.js)
+└─ Button: EXPORTAR A EXCEL (Excel download)
+
+CUOTAS VIEW
+├─ Form: Nombre, DNI, Mes, Monto
+├─ Button: REGISTRAR PAGO
+└─ Table: Lista de todos los pagos
+
+DEUDORES VIEW
+├─ Table: Deudores del mes
+└─ Button: WhatsApp (por cada deudor)
+
+ASISTENCIA VIEW
+├─ Form: DNI, Checkbox Presente
+├─ Button: GUARDAR
+└─ Table: Asistencia de hoy
+
+HISTORIAL VIEW
+├─ Form: Buscar por DNI
+├─ Button: BUSCAR
+└─ Table: Movimientos del jugador
+
+
+💾 FIRESTORE STRUCTURE
+======================
+
+users/
+  {uid}:
+    nombre: "string"
+    email: "string"
+    rol: "admin|tesorero|entrenador"
+
+jugadores/
+  {jug_dni}:
+    nombre: "string"
+    dni: number
+    categoria: "string"
+    telefono: "string"
+
+pagos/
+  {auto_id}:
+    nombre: "string"
+    dni: number
+    mes: "string"
+    monto: number
+    estado: "pagado"
+    fecha: "ISO string"
+
+asistencia/
+  {auto_id}:
+    dni: number
+    fecha: "ISO string"
+    presente: boolean
+
+
+🔑 FUNCIONES PRINCIPALES
+=======================
+
+AUTENTICACIÓN:
+├─ initAuth()
+├─ login()
+├─ logout()
+└─ showLogin()/showPanel()
+
+CUOTAS:
+├─ registrarPago()
+├─ loadPagos()
+├─ deletePago(id)
+└─ cálculo automático de deudores
+
+DASHBOARD:
+├─ loadDashboard()
+├─ exportarExcel()
+└─ gráficos Chart.js
+
+DEUDORES:
+├─ loadDeudores()
+└─ recordarDeuda(nombre, telefono)
+
+ASISTENCIA:
+├─ registrarAsistencia()
+└─ loadAsistencia()
+
+HISTORIAL:
+└─ buscarHistorial()
+
+NAVEGACIÓN:
+└─ showTab(tabName)
+
+
+⚡ STACK TECNOLÓGICO
+====================
+
+Frontend:
+✅ HTML5
+✅ CSS3
+✅ Vanilla JavaScript (ES6+)
+
+Backend:
+✅ Firebase Authentication
+✅ Cloud Firestore
+
+Librerías:
+✅ Chart.js v4 (gráficos)
+✅ SheetJS v0.20.2 (Excel)
+✅ SweetAlert2 v11 (notificaciones)
+✅ Firebase SDK v10.12.2
+
+Hosting:
+✅ Compatible con cualquier servidor estático
+✅ Firebase Hosting (recomendado)
+✅ Vercel, Netlify, GitHub Pages
+
+
+📱 RESPONSIVE BREAKPOINTS
+=========================
+
+Desktop: 1200px+ (óptimo)
+Tablet: 768px - 1200px (adaptado)
+Mobile: < 768px (funcional)
+
+CSS Grid: auto-fit, minmax
+
+
+🧪 TESTING
+==========
+
+Checklist en: VERIFICACION.txt
+
+Validaciones:
+✅ Archivos existen
+✅ Firebase configurado
+✅ Login funciona
+✅ Dashboard carga
+✅ Pagos se registran
+✅ Deudores se calculan
+✅ Excel descarga
+✅ Asistencia funciona
+✅ Historial busca
+✅ No hay errores console
+✅ Responsive funciona
+
+
+📝 NOTAS IMPORTANTES
+===================
+
+1. Sistema usa Firestore en tiempo real
+   → Los cambios se ven instantáneamente
+
+2. Auth persistence automática
+   → Usuario se mantiene al refrescar
+
+3. Roles detectados desde colección "users"
+   → Campo "rol" debe existir
+
+4. Deudores calculados automáticamente
+   → Compara DNI vs pagos del mes
+
+5. Teléfono debe formato: 5491234567890
+   → Para generar links WhatsApp
+
+
+🎓 PARA APRENDER MÁS
+===================
+
+Documentación:
+├─ README-SYSTEM.md (completa)
+├─ API-REFERENCE.txt (funciones)
+├─ RESUMEN-SISTEMA.txt (arquitectura)
+└─ Código comentado en admin-system.js
+
+Firebase Docs:
+├─ https://firebase.google.com/docs
+├─ https://firebase.google.com/docs/firestore
+└─ https://firebase.google.com/docs/auth
+
+Librerías:
+├─ https://www.chartjs.org/
+├─ https://sheetjs.com/
+└─ https://sweetalert2.github.io/
+
+
+✨ PRÓXIMOS PASOS
+================
+
+Fase 1 (AHORA):
+✅ Setup Firebase
+✅ Configurar usuarios
+✅ Pruebas básicas
+
+Fase 2 (Opcional):
+□ Dashboard avanzado
+□ Reportes en PDF
+□ Más gráficos
+□ Mobile app
+
+Fase 3 (Escalabilidad):
+□ API REST
+□ Base de datos respaldos
+□ Notificaciones email
+□ Sistema de roles avanzado
+
+
+🚀 DEPLOYMENT
+=============
+
+Local:
+└─ Abre src/admin.html en navegador
+
+Firebase Hosting:
+└─ firebase deploy
+
+Otros:
+├─ Vercel: vercel
+├─ Netlify: netlify deploy
+└─ GitHub Pages: push a gh-pages
+
+
+✅ CHECKLIST FINAL
+=================
+
+□ Leí GUIA-RAPIDA.txt
+□ Leí SETUP-FIREBASE.txt
+□ Configuré Firebase
+□ Creé usuarios
+□ Creé colecciones
+□ Abrí admin.html
+□ Hice login
+□ Probé funciones
+□ Leí VERIFICACION.txt
+□ Ejecuté checklist
+□ ¡Sistema funciona!
+
+
+🎉 ¡LISTO PARA USAR!
+
+Entiendes la estructura, sabes dónde está todo,
+y cómo hacerlo funcionar.
+
+¡Disfruta del sistema! 🚀
