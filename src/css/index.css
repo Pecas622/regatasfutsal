@@ -377,6 +377,10 @@
             display: block;
         }
 
+        .section-label.gold {
+            color: var(--gold-light);
+        }
+
         .section-header h2 {
             font-family: var(--font-display);
             font-size: clamp(2.5rem, 5vw, 3.8rem);
@@ -468,193 +472,83 @@
             line-height: 1.6;
         }
 
-        /* ─── PLANTEL ─── */
-        .plantel {
+        /* ─── EXPLORA (accesos rápidos) ─── */
+        .explora {
             background: var(--bg);
         }
 
-        .plantel-inner {
+        .explora-inner {
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        .jugadores {
+        .explora-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
             gap: 20px;
         }
 
-        .jugador {
+        .explora-card {
+            display: block;
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            overflow: hidden;
-            transition: all .3s;
-            cursor: default;
-        }
-
-        .jugador:hover {
-            border-color: rgba(220, 38, 38, .3);
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
-        }
-
-        .jugador-img {
-            height: 220px;
-            background: linear-gradient(135deg, var(--card2) 0%, #1a0a0a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 28px 24px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all .25s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .jugador-img::after {
+        .explora-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, var(--card) 0%, transparent 50%);
+            background: linear-gradient(135deg, var(--red-glow), transparent 60%);
+            opacity: 0;
+            transition: opacity .25s ease;
         }
 
-        .jugador-num {
-            font-family: var(--font-display);
-            font-size: 7rem;
-            font-weight: 900;
-            color: rgba(220, 38, 38, .12);
-            line-height: 1;
-            position: absolute;
-            bottom: -10px;
-            right: 10px;
+        .explora-card:hover {
+            border-color: var(--gold-light);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .45);
         }
 
-        .jugador-silhouette {
-            font-size: 5rem;
-            opacity: .15;
-            z-index: 1;
+        .explora-card:hover::before {
+            opacity: 1;
+        }
+
+        .explora-icon {
+            font-size: 2.2rem;
+            margin-bottom: 14px;
             position: relative;
         }
 
-        .jugador-info {
-            padding: 20px 22px;
-        }
-
-        .jugador-badge {
-            display: inline-block;
-            background: var(--red);
-            color: white;
-            font-family: var(--font-display);
-            font-size: .75rem;
-            font-weight: 700;
-            letter-spacing: .1em;
-            padding: 3px 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .jugador-name {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: .03em;
-        }
-
-        .jugador-pos {
-            font-size: .8rem;
-            color: var(--muted);
-            font-weight: 500;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-        }
-
-        /* ─── FIXTURE ─── */
-        .fixture {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .fixture-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .partidos {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .partido {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px 28px;
-            transition: all .2s;
-        }
-
-        .partido:hover {
-            border-color: var(--border2);
-            background: var(--card2);
-        }
-
-        .partido-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .partido-teams {
+        .explora-card h3 {
             font-family: var(--font-display);
             font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .explora-card p {
+            font-size: .85rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .explora-link {
+            font-size: .78rem;
             font-weight: 700;
+            color: var(--gold-light);
             letter-spacing: .03em;
-        }
-
-        .partido-comp {
-            font-size: .75rem;
-            color: var(--muted);
-            letter-spacing: .1em;
-            font-weight: 500;
-        }
-
-        .partido-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
-        }
-
-        .partido-fecha {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--red-bright);
-        }
-
-        .partido-hora {
-            font-size: .8rem;
-            color: var(--muted);
-            letter-spacing: .08em;
-        }
-
-        .partido-tag {
-            font-size: .65rem;
-            font-weight: 700;
-            letter-spacing: .12em;
-            padding: 4px 10px;
-            border-radius: 4px;
-            background: rgba(29, 78, 216, .15);
-            color: #60a5fa;
-            border: 1px solid rgba(29, 78, 216, .2);
-        }
-
-        .partido-tag.local {
-            background: rgba(220, 38, 38, .12);
-            color: var(--red-bright);
-            border-color: rgba(220, 38, 38, .2);
+            position: relative;
         }
 
         /* ─── CUOTAS / PAGOS ─── */
