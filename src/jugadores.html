@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jugadores Federados — Regatas Futsal</title>
+
+<link rel="stylesheet" href="./css/jugadores.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="../index.html" class="nav-logo">
+        <img src="./public/regataslogo.jpg" class="logo-img">
+        <div>
+            <div class="brand">REGATAS</div>
+            <div class="sub">FUTSAL · MENDOZA</div>
+        </div>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="./categorias.html">Categorias</a></li>
+        <li><a href="./fixture.html">Fixture</a></li>
+        <li><a href="./jugadores.html" class="active">Federados</a></li>
+        <li><a href="./catalogo.html">Indumentaria</a></li>
+        <li><a href="./contacto.html">Contacto</a></li>
+        <li>
+            <a href="./carrito.html" class="btn-nav">
+                🛒 <span id="cart-count">0</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div class="page-title">
+    <span class="page-eyebrow">PLANTELES OFICIALES</span>
+    <h1>Jugadores Federados</h1>
+    <p class="page-sub">Buscá un jugador por DNI o nombre para ver su categoría y estado de federación.</p>
+</div>
+
+<!-- BUSCADOR -->
+<div class="buscador">
+    <input
+        type="text"
+        id="q"
+        placeholder="Buscar por DNI o nombre..."
+        autocomplete="off"
+        oninput="onBuscar()"
+    />
+    <select id="f-categoria-filtro" onchange="onBuscar()" aria-label="Filtrar por categoría">
+        <option value="all">Todas las categorías</option>
+        <option value="Sub-10">Sub-10</option>
+        <option value="Sub-12">Sub-12</option>
+        <option value="Sub-14">Sub-14</option>
+        <option value="Sub-16">Sub-16</option>
+        <option value="Sub-18">Sub-18</option>
+        <option value="Primera División">Primera División</option>
+        <option value="Reserva">Reserva</option>
+    </select>
+</div>
+
+<!-- RESULTADOS -->
+<div class="grid" id="grid"></div>
+<p class="empty-msg" id="empty-msg" style="display:none">
+    No encontramos jugadores con ese criterio de búsqueda.
+</p>
+<p class="loading-msg" id="loading-msg">Cargando jugadores...</p>
+
+<footer>
+    © 2026 Regatas Futsal
+</footer>
+
+<script src="./js/cart.js"></script>
+<script type="module">
+import { db } from "./js/firebase.js";
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ===== DATA =====
+// Esquema esperado en Firestore, colección "jugadores" (los campos con * son opcionales):
+//   nombre: string
+//   dni: string | number
+//   categoria: string           (ej: "Sub-14", "Primera División")
+//   foto*: string               (url o nombre de archivo en ./public/)
+//   beca*: { porcentaje: number, vigencia: string }   // ej: { porcentaje: 100, vigencia: "31/12/2026" }
+//   observaciones*: string
+//   estadoFederacion*: "federado" | "tramite" | "no-federado"  (default: "federado")
+let jugadores = [];
+
+async function cargarJugadores() {
+    try {
+        const snap = await getDocs(collection(db, "jugadores"));
+        jugadores = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (e) {
+        console.error("Error cargando jugadores:", e);
+        jugadores = [];
+    }
+    document.getElementById("loading-msg").style.display = "none";
+    render(jugadores);
+}
+
+// ===== BUSQUEDA =====
+window.onBuscar = () => {
+    const q = document.getElementById("q").value.trim().toLowerCase();
+    const cat = document.getElementById("f-categoria-filtro").value;
+
+    const filtrados = jugadores.filter(j => {
+        if (cat !== "all" && j.categoria !== cat) return false;
+        if (!q) return true;
+
+        const dni = String(j.dni || "").toLowerCase();
+        const nombre = String(j.nombre || "").toLowerCase();
+
+        return dni.includes(q) || nombre.includes(q);
+    });
+
+    render(filtrados);
+};
+
+// ===== BECA / ESTADO =====
+function badgeBeca(j) {
+    if (!j.beca || !j.beca.porcentaje) {
+        return `<span class="badge badge-sin">Sin beca</span>`;
+    }
+    return `<span class="badge badge-becado">🟢 Becado ${j.beca.porcentaje}%</span>`;
+}
+
+function badgeEstado(j) {
+    const estado = j.estadoFederacion || "federado";
+    const map = {
+        federado: { txt: "Federado", cls: "estado-ok" },
+        tramite: { txt: "En trámite", cls: "estado-tramite" },
+        "no-federado": { txt: "No federado", cls: "estado-no" }
+    };
+    const e = map[estado] || map.federado;
+    return `<span class="estado-tag ${e.cls}">${e.txt}</span>`;
+}
+
+// ===== RENDER =====
+function render(lista) {
+    const grid = document.getElementById("grid");
+    const emptyMsg = document.getElementById("empty-msg");
+
+    if (!lista.length) {
+        grid.innerHTML = "";
+        emptyMsg.style.display = "block";
+        return;
+    }
+    emptyMsg.style.display = "none";
+
+    grid.innerHTML = lista.map(j => `
+        <div class="card-jugador">
+            <div class="foto-wrap">
+                ${
+                    j.foto
+                        ? `<img src="./public/${j.foto}" onerror="this.src='./public/no-image.png'">`
+                        : `<span class="silueta">🧑</span>`
+                }
+            </div>
+
+            <div class="info">
+                <div class="nombre">${j.nombre || "Sin nombre"}</div>
+                <div class="dni">DNI: ${j.dni ?? "—"}</div>
+                <div class="categoria-tag">${j.categoria || "Sin categoría"}</div>
+
+                <div class="badges">
+                    ${badgeEstado(j)}
+                    ${badgeBeca(j)}
+                </div>
+
+                ${j.beca && j.beca.vigencia ? `<div class="vigencia">Beca vigente hasta ${j.beca.vigencia}</div>` : ""}
+                ${j.observaciones ? `<div class="observaciones">${j.observaciones}</div>` : ""}
+            </div>
+        </div>
+    `).join("");
+}
+
+// INIT
+cargarJugadores();
+</script>
+
+
+</body>
+</html>
