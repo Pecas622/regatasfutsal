@@ -17,25 +17,6 @@
 
     <div class="scroll-line" id="scrollLine"></div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast">
-        <span class="toast-icon">✓</span>
-        <span class="toast-msg" id="toast-msg">Pago registrado correctamente</span>
-    </div>
-
-    <!-- MODAL HISTORIAL -->
-    <div id="modal-historial">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3>HISTORIAL DE PAGOS</h3>
-                <button class="modal-close" onclick="cerrarHistorial()">✕</button>
-            </div>
-            <div id="historial-lista">
-                <p class="no-pagos">No hay pagos registrados aún.</p>
-            </div>
-        </div>
-    </div>
-
     <!-- ANNOUNCE -->
     <div class="announce">TEMPORADA 2026 · INSCRIPCIONES ABIERTAS · MENDOZA</div>
 
@@ -179,158 +160,87 @@
         <div class="cuotas-inner">
             <div class="section-header">
                 <span class="section-label">SISTEMA DE CUOTAS</span>
-                <h2>INSCRIPCIÓN Y PAGOS</h2>
-                <p>Elegí tu categoría, completá tus datos y aboná tu cuota mensual de forma simple.</p>
+                <h2>PLANES Y PRECIOS</h2>
+                <p>Elegí la categoría de tu jugador y conocé qué incluye cada plan mensual.</p>
             </div>
 
-            <div class="cuotas-grid">
-                <!-- PLANES -->
-                <div>
-                    <p class="plan-label">
-                        Seleccioná tu plan</p>
-                    <div class="planes">
+            <div class="planes">
 
-                        <div class="plan" id="plan-infantil" onclick="seleccionarPlan(this,'Infantil','$8.500')">
-                            <div class="plan-header">
-                                <div class="plan-name">INFANTIL</div>
-                                <div class="plan-price">
-                                    <div class="amount">$8.500</div>
-                                    <span class="freq">por mes</span>
-                                </div>
-                            </div>
-                            <ul class="plan-includes">
-                                <li>Categorías Sub-10 y Sub-12</li>
-                                <li>2 entrenamientos semanales</li>
-                                <li>Cobertura médica deportiva</li>
-                                <li>Participación en torneos</li>
-                            </ul>
+                <div class="plan" id="plan-infantil">
+                    <div class="plan-header">
+                        <div class="plan-name">INFANTIL</div>
+                        <div class="plan-price">
+                            <div class="amount">$8.500</div>
+                            <span class="freq">por mes</span>
                         </div>
-
-                        <div class="plan destacado" id="plan-juvenil"
-                            onclick="seleccionarPlan(this,'Juvenil','$10.500')">
-                            <div class="plan-badge">MÁS ELEGIDO</div>
-                            <div class="plan-header">
-                                <div class="plan-name">JUVENIL</div>
-                                <div class="plan-price">
-                                    <div class="amount">$10.500</div>
-                                    <span class="freq">por mes</span>
-                                </div>
-                            </div>
-                            <ul class="plan-includes">
-                                <li>Categorías Sub-14, Sub-16 y Sub-18</li>
-                                <li>3 entrenamientos semanales</li>
-                                <li>Cobertura médica deportiva</li>
-                                <li>Participación en liga oficial</li>
-                                <li>Kit de entrenamiento</li>
-                            </ul>
-                        </div>
-
-                        <div class="plan" id="plan-senior" onclick="seleccionarPlan(this,'Senior / Adultos','$12.000')">
-                            <div class="plan-header">
-                                <div class="plan-name">SENIOR / ADULTOS</div>
-                                <div class="plan-price">
-                                    <div class="amount">$12.000</div>
-                                    <span class="freq">por mes</span>
-                                </div>
-                            </div>
-                            <ul class="plan-includes">
-                                <li>Primera división y reserva</li>
-                                <li>3 entrenamientos + partido</li>
-                                <li>Cobertura médica completa</li>
-                                <li>Acceso a instalaciones</li>
-                                <li>Kit completo de competencia</li>
-                            </ul>
-                        </div>
-
                     </div>
-                    <br>
-                    <button class="btn-historial" onclick="abrirHistorial()">
-                        Ver historial de pagos →
-                    </button>
+                    <ul class="plan-includes">
+                        <li>Categorías Sub-10 y Sub-12</li>
+                        <li>2 entrenamientos semanales</li>
+                        <li>Cobertura médica deportiva</li>
+                        <li>Participación en torneos</li>
+                    </ul>
                 </div>
 
-                <!-- FORMULARIO DE PAGO -->
-                <div class="pago-form">
-                    <div class="pago-title">ABONAR CUOTA</div>
-                    <p class="pago-sub">Completá tus datos para registrar el pago mensual.</p>
-
-                    <div class="form-row">
-                        <label>Nombre completo</label>
-                        <input type="text" id="f-nombre" placeholder="Ej: Juan Pérez">
-                    </div>
-
-                    <div class="form-row">
-                        <label>DNI del jugador</label>
-                        <input type="text" id="f-dni" placeholder="Ej: 38.456.789">
-                    </div>
-
-                    <div class="form-row">
-                        <label>Categoría</label>
-                        <select id="f-categoria" aria-label="Categoría">
-                            <option value="">Seleccioná una categoría</option>
-                            <option>Sub-10</option>
-                            <option>Sub-12</option>
-                            <option>Sub-14</option>
-                            <option>Sub-16</option>
-                            <option>Sub-18</option>
-                            <option>Primera División</option>
-                            <option>Reserva</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <label>Mes a abonar</label>
-                        <select id="f-mes" aria-label="Mes a abonar">
-                            <option value="">Seleccioná el mes</option>
-                            <option>Enero 2026</option>
-                            <option>Febrero 2026</option>
-                            <option>Marzo 2026</option>
-                            <option>Abril 2026</option>
-                            <option selected>Mayo 2026</option>
-                            <option>Junio 2026</option>
-                            <option>Julio 2026</option>
-                            <option>Agosto 2026</option>
-                            <option>Septiembre 2026</option>
-                            <option>Octubre 2026</option>
-                            <option>Noviembre 2026</option>
-                            <option>Diciembre 2026</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row">
-                        <label>Método de pago</label>
-                        <select id="f-metodo" aria-label="Método de pago">
-                            <option>Transferencia bancaria</option>
-                            <option>Efectivo en sede</option>
-                            <option>Mercado Pago</option>
-                            <option>Débito automático</option>
-                        </select>
-                    </div>
-
-                    <div class="pago-resumen" id="resumen-box">
-                        <div class="resumen-row">
-                            <span>Plan seleccionado</span>
-                            <span class="val" id="res-plan">— Sin seleccionar —</span>
-                        </div>
-                        <div class="resumen-row">
-                            <span>Mes</span>
-                            <span id="res-mes">—</span>
-                        </div>
-                        <div class="resumen-row total">
-                            <span>TOTAL</span>
-                            <span class="val" id="res-total">$ —</span>
+                <div class="plan destacado" id="plan-juvenil">
+                    <div class="plan-badge">MÁS ELEGIDO</div>
+                    <div class="plan-header">
+                        <div class="plan-name">JUVENIL</div>
+                        <div class="plan-price">
+                            <div class="amount">$10.500</div>
+                            <span class="freq">por mes</span>
                         </div>
                     </div>
-
-                    <button class="btn-pagar" onclick="registrarPago()">
-                        <span>REGISTRAR PAGO</span>
-                        <span>→</span>
-                    </button>
-
-                    <div class="seguro-note">
-                        🔒 Tus datos están protegidos · Transacción segura
-                    </div>
+                    <ul class="plan-includes">
+                        <li>Categorías Sub-14, Sub-16 y Sub-18</li>
+                        <li>3 entrenamientos semanales</li>
+                        <li>Cobertura médica deportiva</li>
+                        <li>Participación en liga oficial</li>
+                        <li>Kit de entrenamiento</li>
+                    </ul>
                 </div>
+
+                <div class="plan" id="plan-senior">
+                    <div class="plan-header">
+                        <div class="plan-name">SENIOR / ADULTOS</div>
+                        <div class="plan-price">
+                            <div class="amount">$12.000</div>
+                            <span class="freq">por mes</span>
+                        </div>
+                    </div>
+                    <ul class="plan-includes">
+                        <li>Primera división y reserva</li>
+                        <li>3 entrenamientos + partido</li>
+                        <li>Cobertura médica completa</li>
+                        <li>Acceso a instalaciones</li>
+                        <li>Kit completo de competencia</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="cuotas-cta">
+                <p>Para inscribirte o abonar tu cuota, acercate a la sede o escribinos por contacto.</p>
+                <a href="./src/contacto.html" class="btn-primary">Contactanos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUMENTARIA -->
+    <section class="tienda-preview" id="indumentaria">
+        <div class="tienda-preview-inner">
+            <div class="section-header">
+                <span class="section-label gold">TIENDA OFICIAL</span>
+                <h2>INDUMENTARIA REGATAS</h2>
+                <p>Camisetas, buzos y accesorios oficiales del club, con despacho o retiro en sede.</p>
+            </div>
+
+            <div class="tienda-grid" id="tienda-grid">
+                <p class="tienda-loading" id="tienda-loading">Cargando productos...</p>
+            </div>
+
+            <div class="tienda-cta">
+                <a href="./src/catalogo.html" class="btn-primary">Ver tienda completa →</a>
             </div>
         </div>
     </section>
@@ -353,9 +263,56 @@
         <strong>REGATAS FUTSAL MENDOZA</strong> · © 2026 · Todos los derechos reservados
     </footer>
 
-    <!-- SOLO TE CAMBIO EL SCRIPT, TODO LO DEMÁS DE TU HTML QUEDA IGUAL -->
+    <script type="module">
+        import { db } from "./src/js/firebase.js";
+        import {
+            collection,
+            getDocs
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<script type="module" src="./src/js/main.js"></script>
+        const MAX_PRODUCTOS = 6;
+
+        async function cargarVidriera() {
+            const grid = document.getElementById("tienda-grid");
+            const loading = document.getElementById("tienda-loading");
+
+            try {
+                const snap = await getDocs(collection(db, "regatas"));
+                let productos = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                if (!productos.length) {
+                    loading.textContent = "Todavía no hay productos cargados.";
+                    return;
+                }
+
+                // Priorizamos productos con stock disponible
+                productos.sort((a, b) => (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0));
+                productos = productos.slice(0, MAX_PRODUCTOS);
+
+                grid.innerHTML = productos.map(p => `
+                    <a href="./src/catalogo.html" class="producto-card">
+                        <div class="producto-img">
+                            <img
+                                src="./src/public/${p.img}"
+                                onerror="this.src='./src/public/no-image.png'"
+                            >
+                        </div>
+                        <div class="producto-info">
+                            <div class="producto-nombre">${p.nombre || "Producto"}</div>
+                            <div class="producto-precio">$${p.precio ?? "—"}</div>
+                        </div>
+                    </a>
+                `).join("");
+
+            } catch (e) {
+                console.error("Error cargando vidriera:", e);
+                loading.textContent = "No pudimos cargar los productos en este momento.";
+            }
+        }
+
+        cargarVidriera();
+    </script>
+
 </body>
 
 </html>
