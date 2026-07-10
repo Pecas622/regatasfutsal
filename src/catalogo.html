@@ -107,11 +107,34 @@ async function loadProductos() {
     render();
 }
 
+// ===== TALLES / STOCK =====
+// Los productos pueden definir en Firestore:
+//   talles: ["S","M","L","XL"]            (opcional, si no está se usa "Único")
+//   stockPorTalle: { S: 3, M: 0, L: 5 }    (opcional, stock por talle)
+// Si no definen stockPorTalle, se sigue usando el campo global "stock" como antes.
+function getTalles(p) {
+    return Array.isArray(p.talles) && p.talles.length ? p.talles : ["Único"];
+}
+
+function talleSinStock(p, talle) {
+    if (p.stockPorTalle && typeof p.stockPorTalle === "object") {
+        return !(p.stockPorTalle[talle] > 0);
+    }
+    return false;
+}
+
+function productoSinStock(p) {
+    if (p.stockPorTalle && typeof p.stockPorTalle === "object") {
+        return getTalles(p).every(t => talleSinStock(p, t));
+    }
+    return p.stock === 0;
+}
+
 // ===== FILTRO =====
 function getFiltrados() {
     return productos.filter(p => {
         if (categoriaActiva !== "all" && p.categoria !== categoriaActiva) return false;
-        if (soloStock && (!p.stock || p.stock <= 0)) return false;
+        if (soloStock && productoSinStock(p)) return false;
         return true;
     });
 }
@@ -121,7 +144,23 @@ function render() {
     const grid = document.getElementById("grid");
     const filtrados = getFiltrados();
 
-    grid.innerHTML = filtrados.map(p => `
+    grid.innerHTML = filtrados.map(p => {
+        const talles = getTalles(p);
+        const sinStock = productoSinStock(p);
+
+        // El talle activo por default es el primero que tenga stock disponible
+        let activeIdx = talles.findIndex(t => !talleSinStock(p, t));
+        if (activeIdx === -1) activeIdx = 0;
+
+        const tallesHtml = talles.map((t, i) => `
+            <button
+                class="${i === activeIdx ? "active" : ""}"
+                ${talleSinStock(p, t) ? "disabled" : ""}
+                onclick="selectTalle('${p.id}', this)"
+            >${t}</button>
+        `).join("");
+
+        return `
         <div class="card">
 
             <img 
@@ -134,18 +173,18 @@ function render() {
 
             <!-- TALLES -->
             <div class="talles" id="t-${p.id}">
-                <button class="active" onclick="selectTalle('${p.id}', this)">M</button>
-                <button onclick="selectTalle('${p.id}', this)">L</button>
+                ${tallesHtml}
             </div>
 
             <button onclick="addToCart('${p.id}')"
-                ${p.stock === 0 ? "disabled" : ""}
+                ${sinStock ? "disabled" : ""}
             >
-                ${p.stock === 0 ? "Sin stock" : "Agregar"}
+                ${sinStock ? "Sin stock" : "Agregar"}
             </button>
 
         </div>
-    `).join("");
+    `;
+    }).join("");
 }
 
 // ===== TALLE =====
